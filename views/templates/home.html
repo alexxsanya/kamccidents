@@ -60,7 +60,9 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@report">
       Report an Accident
     </button>  
-    
+    <button type="button" class="btn btn-danger float-right">
+        <span class="badge badge-light">20</span> Reported Today
+      </button>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -98,12 +100,12 @@
 
 {% block scripts %}
 {{super()}}
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7g68KcjjZ3nGcT0Jcjo6nWPXfITNVStA"  type="text/javascript"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7g68KcjjZ3nGcT0Jcjo6nWPXfITNVStA&libraries=visualization" type="text/javascript"></script>
 <script src="{{url_for('.static', filename='js/map.js')}}"></script>
 <script>
   window.onload = function(){
-    //console.log(pickCoordinates())
-    initialize()
+    //console.log(pickCoordinates()) 
+    loadHeatMap()
   } 
 
   $('#exampleModal').on('show.bs.modal', function (event) {

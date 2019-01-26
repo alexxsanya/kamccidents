@@ -1,66 +1,34 @@
-function geocodePosition(pos) {
+function loadHeatMap(){
+  /* Data points defined as an array of LatLng objects */
+/* Data points defined as a mixture of WeightedLocation and LatLng objects */
+  var heatMapData = [
+    {location: new google.maps.LatLng(37.782, -122.447), weight: 0.5},
+    new google.maps.LatLng(37.782, -122.445),
+    {location: new google.maps.LatLng(37.782, -122.443), weight: 15},
+    {location: new google.maps.LatLng(37.782, -122.441), weight: 3},
+    {location: new google.maps.LatLng(37.782, -122.439), weight: 2},
+    new google.maps.LatLng(37.782, -122.437),
+    {location: new google.maps.LatLng(37.782, -122.435), weight: 0.5},
+    {location: new google.maps.LatLng(37.785, -122.447), weight: 3},
+    {location: new google.maps.LatLng(37.785, -122.445), weight: 7},
+    new google.maps.LatLng(37.785, -122.443),
+    {location: new google.maps.LatLng(37.785, -122.441), weight: 0.5},
+    new google.maps.LatLng(37.785, -122.439),
+    {location: new google.maps.LatLng(37.785, -122.437), weight: 2},
+    {location: new google.maps.LatLng(37.785, -122.435), weight: 6}
+  ];
 
-  var geocoder = new google.maps.Geocoder();
-  var currentLocation = ""
-  geocoder.geocode({
-    latLng: pos
-  }, function(responses) {
-    if (responses && responses.length > 0) {
-      updateMarkerAddress(responses[0].formatted_address);
-    } else {
-      updateMarkerAddress('Cannot determine address at this location.');
-    }
-  });
-}
+  var sanFrancisco = new google.maps.LatLng(37.774546, -122.433523);
 
-function updateMarkerStatus(str) {
-  document.getElementById('markerStatus').innerHTML = str;
-}
-
-function updateMarkerPosition(latLng) {
-  var lat =   latLng.lat().toString();
-  var lng = latLng.lng().toString(); 
-  document.getElementById('info').innerHTML = [
-    lat.substr(0, 10),
-    lng.substr(0, 10)
-  ].join(', ');
-}
-
-function updateMarkerAddress(str) {
-  document.getElementById('address').innerHTML = str;
-}
-
-function initialize() { 
-  console.log("lOCATION ALL")
-  var latLng = new google.maps.LatLng(0.347596655,32.582520); 
-  var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+  map = new google.maps.Map(document.getElementById('mapCanvas'), {
+    center: sanFrancisco,
     zoom: 15,
-    center: latLng,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  });
-  var marker = new google.maps.Marker({
-    position: latLng,
-    title: 'Location of the Incident',
-    map: map,
-    draggable: true
+    mapTypeId: 'satellite'
   });
 
-  // Update current position info.
-  updateMarkerPosition(latLng);
-  geocodePosition(latLng);
-
-  // Add dragging event listeners.
-  google.maps.event.addListener(marker, 'dragstart', function() {
-    updateMarkerAddress('Dragging...');
+  var heatmap = new google.maps.visualization.HeatmapLayer({
+    data: heatMapData
   });
 
-  google.maps.event.addListener(marker, 'drag', function() {
-    updateMarkerStatus('Dragging...');
-    updateMarkerPosition(marker.getPosition());
-  });
-
-  google.maps.event.addListener(marker, 'dragend', function() {
-    updateMarkerStatus('Drag ended');
-    geocodePosition(marker.getPosition());
-  });
+  heatmap.setMap(map);
 }
