@@ -1,0 +1,41 @@
+{% extends "bootstrap/base.html" %}
+<!DOCTYPE html>
+<html>
+{% block head %}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kampala Accident Response Unit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block styles %}
+        <link rel="stylesheet" href="{{url_for('.static', filename='css/layout.css')}}">
+        {{super()}}
+    {% endblock %} 
+
+    {% block scripts %}
+    {{super()}}
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7g68KcjjZ3nGcT0Jcjo6nWPXfITNVStA&libraries=visualization" type="text/javascript"></script>
+    <script src="{{url_for('.static', filename='js/map.js')}}"></script>
+    <!-- script src="https://code.highcharts.com/highcharts.src.js"></script -->
+    <script>
+      $('#exampleModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-title').text('New message to ' + recipient)
+      modal.find('.modal-body input').val(recipient)
+    })
+    </script>
+    {% endblock %}
+{% endblock %}
+<body> 
+    {% include 'includes/__nav.html' %}
+    <div class="container">
+        {% block body %}
+            {% include 'includes/__create_accident_modal.html' %}
+            {% include 'includes/__login_modal.html' %}
+        {% endblock %}
+    </div>
+</body>
+</html>

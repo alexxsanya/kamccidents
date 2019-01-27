@@ -1,121 +1,27 @@
-{% extends "bootstrap/base.html" %}
-{% block title %}This is an example page{% endblock %}
+{% extends "layout.html" %}
+{% block title %} Home Page {% endblock %}
 
-{% block styles %}
-  <link rel="stylesheet" href="{{url_for('.static', filename='css/layout.css')}}">
-  {{super()}}
-{% endblock %}
+{% block body %}
 
-{% block navbar %}
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">
-        <!-- img alt="Kampala Accident Resp Unit" src="#" -->
-        Kampala Accident Resp Unit
-      </a>
-    </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">About</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-right">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-primary">Search </button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" data-toggle="modal" data-target="#exampleModal" data-whatever="@login">Login</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile 
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Account</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Logout</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div>
-</nav>
-{% endblock %}
-
-{% block content %}
-  <div class="container">
+<div class="container">
+    {{super()}}
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@report">
-      Report an Accident
+        Report an Accident
     </button>  
     <button type="button" class="btn btn-danger float-right">
         <span class="badge badge-light">20</span> Reported Today
-      </button>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Recipient:</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-              <div class="form-group">
-                <label for="message-text" class="col-form-label">Message:</label>
-                <textarea class="form-control" id="message-text"></textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send message</button>
-          </div>
-        </div>
-      </div>
-    </div> 
+    </button>
     <div id="mapCanvas">
-        kjlhdkjshkj
+        
     </div>
-  </div> 
+</div> 
 {% endblock %}
-
-
 {% block scripts %}
-{{super()}}
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7g68KcjjZ3nGcT0Jcjo6nWPXfITNVStA&libraries=visualization" type="text/javascript"></script>
-<script src="{{url_for('.static', filename='js/map.js')}}"></script>
-<script>
-  window.onload = function(){
-    //console.log(pickCoordinates()) 
-    loadHeatMap()
-  } 
-
-  $('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('whatever') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
-})
-</script>
+  {{super()}}
+  <script>
+      window.onload = function(){
+        //console.log(pickCoordinates()) 
+        //loadHeatMap()
+      }  
+  </script>
 {% endblock %}
