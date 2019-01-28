@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %} Server Error 500 Occured {% endblock %}
+
+{% block body %}
+{{super()}}
+<div class="container">
+        <div class="jumbotron">
+              <h1 class="display-4">Server Error 500 Occured</h1>
+              <p class="lead">An Internal Error Occured</p>
+              <hr class="my-4">
+              <p> Contact system support unit for assistance on this Erro</p>
+              <a class="btn btn-primary btn-lg" href="/contact" role="button">Contact Support Team</a>
+        </div>
+  </div> 
+{% endblock %}
+{% block scripts %}
+  {{super()}}
+  <script>
+      window.onload = function(){
+        //console.log(pickCoordinates()) 
+        //loadHeatMap()
+      }  
+  </script>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %} Error 401 Occured {% endblock %}
+
+{% block body %}
+{{super()}}
+<div class="container">
+      <div class="jumbotron">
+            <h1 class="display-4">Error 404 Occured<!</h1>
+            <p class="lead">Requested Resource Not Found</p>
+            <hr class="my-4">
+            <p>The resource you are trying to access does not exist here</p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Get Me Out of Here</a>
+          </div>
+</div> 
+{% endblock %}
+{% block scripts %}
+  {{super()}}
+  <script>
+      window.onload = function(){
+        //console.log(pickCoordinates()) 
+        //loadHeatMap()
+      }  
+  </script>
+{% endblock %}

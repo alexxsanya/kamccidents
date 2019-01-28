@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %} Error 401 Occured {% endblock %}
+
+{% block body %}
+{{super()}}
+<div class="container">
+        <div class="jumbotron">
+              <h1 class="display-4">Error 403 Occured</h1>
+              <p class="lead">You are forbidden from accessing this resource</p>
+              <hr class="my-4">
+              <p>Contact Admin for details on why.</p>
+              <a class="btn btn-primary btn-lg" href="/contact" role="button">Contact Support Team</a>
+        </div>
+  </div> 
+{% endblock %}
+{% block scripts %}
+  {{super()}}
+  <script>
+      window.onload = function(){
+        //console.log(pickCoordinates()) 
+        //loadHeatMap()
+      }  
+  </script>
+{% endblock %}
