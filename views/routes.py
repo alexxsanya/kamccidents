@@ -9,6 +9,10 @@ def home():
 
     return render_template("home.html")
 
+@app.route("/feeds")
+def home():
+
+    return render_template("feeds.html")
 
 @app.errorhandler(401)
 def error_401(error):
