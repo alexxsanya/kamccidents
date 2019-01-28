@@ -7,7 +7,7 @@
     <title>Kampala Accident Response Unit</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block styles %}
-        <link rel="stylesheet" href="{{url_for('.static', filename='css/layout.css')}}">
+        <link rel="stylesheet" href="{{url_for('.static', filename='css/layout.css')}}"> 
         {{super()}}
     {% endblock %} 
 
@@ -30,12 +30,14 @@
     {% endblock %}
 {% endblock %}
 <body> 
-    {% include 'includes/__nav.html' %}
-    <div class="container">
         {% block body %}
-            {% include 'includes/__create_accident_modal.html' %}
-            {% include 'includes/__login_modal.html' %}
+            {% block navbar %}
+                {% include 'includes/__nav.html' %}
+            {% endblock %} 
+            <div class="container">
+                {% include 'includes/__create_accident_modal.html' %}
+                {% include 'includes/__login_modal.html' %}
+            </div>
         {% endblock %}
-    </div>
 </body>
 </html>
