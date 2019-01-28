@@ -10,7 +10,7 @@ def home():
     return render_template("home.html")
 
 @app.route("/feeds")
-def home():
+def feeds():
 
     return render_template("feeds.html")
 
