@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %} Accident's Feeds {% endblock %}
+
+<body>
+    {% block body %} 
+    {{super()}}
+    <div class="container padding">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@report">
+            Report an Accident
+        </button>  
+        <button type="button" class="btn btn-danger float-right">
+            <span class="badge badge-light">20</span> Reported Today
+        </button> 
+        <div id="feeds">
+            
+        </div>
+    </div> 
+    {% endblock %}
+
+</body>
+{% block scripts %}
+  {{super()}}
+  <script>
+  window.onload = function(){
+    //console.log(pickCoordinates()) 
+    //loadHeatMap()
+  }   
+  </script>
+{% endblock %}
