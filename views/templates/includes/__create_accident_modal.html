@@ -18,11 +18,12 @@
                     <textarea class="form-control form-control-sm" id="accident-desc"></textarea>
                 </div>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="accident-photos" accept="image/*" multiple required>
+                    <input type="file" onchange="display_this(this);" class="custom-file-input" id="accident-photos" accept="image/*" multiple required>
                     <label class="custom-file-label" for="accident-photos">Attach Photos...</label>
                     <div class="invalid-feedback">You must Attach atleast one photo</div>
                     <div class="photo-display">
-
+                        <span class="close-me" onclick="close_display();">&times;</span>
+                        <img id="accident_image" src="http://placehold.it/48" alt="your image" />
                     </div>
                   </div>
                 <div class="form-group">
