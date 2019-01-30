@@ -11,19 +11,23 @@
             <form>
                 <div class="form-group">
                 <label for="username-name" class="col-form-label">Username :</label>
-                <input type="text" class="form-control is-valid" id="username-name" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                <input type="text" class="form-control" id="username-name" required>
                 </div>
                 <div class="form-group">
-                <label for="password-name" class="col-form-label">password:</label>
-                <input type="password" class="form-control is-invalid" id="password-name"
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  >
+                <label for="username-pass" class="col-form-label">password:</label>
+                <input type="password" class="form-control" id="username-pass" required>
                 </div>
-            </form>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Login</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Login</button>
             </div>
+            </form>
         </div>
         </div>
     </div> 
+    
+    <script>
+        bootstrapValidate('#username-name', 'email:Enter a valid email address')
+        bootstrapValidate('#username-pass','regex:^[A-Za-z0-9]{8,20}:Password must be atleast 8 alpha numeric')
+    </script> 

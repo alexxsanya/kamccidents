@@ -13,38 +13,40 @@
                     <form>
                         <div class="form-group">
                             <label for="user-fullname">Full Name</label>
-                            <input type="text" class="form-control" id="user-fullname" 
-                            pattern="[A-Za-z]{3,15},[A-Za-z]{3,15}" placeholder="FirstName LastName">
+                            <input type="text" class="form-control" id="user-fullname" placeholder="Firstname,Lastname" required>
                         </div>
                         <div class="form-group">
                             <label for="user-email">Email</label>
-                            <input type="text" class="form-control" id="user-email" 
-                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email Address">
+                            <input type="text" class="form-control" id="user-email" placeholder="Email Address" required>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="user-pass">Password</label>
-                                <input type="password" class="form-control" id="user-pass" 
-                                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Password">
+                                <input type="password" class="form-control" id="user-pass" placeholder="Password" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="user-pass-confirm">Confirm Password</label>
-                                <input type="password" class="form-control" id="user-pass-confirm" 
-                                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Password">
+                                <input type="password" class="form-control" id="user-pass-confirm"  placeholder="Re-type Password" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="user-phonenumber">Phone Number</label>
-                            <input type="tel" class="form-control" id="user-phonenumber" 
-                                pattern="2567[0-9]{8}" placeholder="256 781 000233">
+                            <input type="tel" class="form-control" id="user-phonenumber" placeholder="256 781 000233" required>
                         </div>
                     
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Create Account</button>
-                    </form>
+                <button type="submit" class="btn btn-primary">Create Account</button>
                 </div>
+            </form>
             </div>
             </div>
         </div> 
+        <script>
+            bootstrapValidate('#user-email', 'email:Enter valid email as user@host.com')
+            bootstrapValidate('#user-pass','regex:^[A-Za-z0-9]{8,20}:Password must be atleast 8 alpha numeric')
+            bootstrapValidate('#user-pass-confirm','matches:#user-pass:Your passwords should match')
+            bootstrapValidate('#user-fullname', 'regex:^[A-Za-z]{3,15},[A-Za-z]{3,15}:Fill name as firstname,lastname')
+            bootstrapValidate('#user-phonenumber','regex:^2567[0-9]{8}:Format should be 2567________|numeric:Only number acceptable!')
+        </script> 
