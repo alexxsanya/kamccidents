@@ -15,10 +15,12 @@
                 </div>
                 <div class="form-group">
                     <label for="accident-desc" class="col-form-label">Description:</label>
-                    <textarea class="form-control form-control-sm" id="accident-desc"></textarea>
+                    <textarea class="form-control form-control-sm" id="accident-desc" 
+                        pattern=".+{,5}" maxlength="150" rows="2" required></textarea>
                 </div>
                 <div class="custom-file">
-                    <input type="file" onchange="display_this(this);" class="custom-file-input" id="accident-photos" accept="image/*" multiple required>
+                    <input type="file" onchange="display_this(this);" class="custom-file-input" 
+                        id="accident-photos" accept="image/*" multiple required>
                     <label class="custom-file-label" for="accident-photos">Attach Photos...</label>
                     <div class="invalid-feedback">You must Attach atleast one photo</div>
                     <div class="photo-display">
@@ -29,7 +31,8 @@
                 <div class="form-group">
                     <label for="accident-address" class="sr-only">Address:</label>
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" id="accident-address" placeholder="Address">
+                        <input type="text" class="form-control form-control-sm" id="accident-address" 
+                            pattern="[0-9]{10},[0-9]{10}" maxlength="25" placeholder="Latitude, Longitude" required>
                         <div class="col-auto">
                           <button type="button" class="btn btn-default mb-2">Pick HERE</button>
                         </div>
@@ -40,14 +43,16 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                       <label for="accident-by-name">Name</label>
-                      <input type="text" class="form-control is-invalid" id="accident-by-name" placeholder="First name"  required>
+                      <input type="text" class="form-control is-invalid" id="accident-by-name" placeholder="First name"  
+                        pattern="[A-Za-z]{3,15}" maxlength="15" required>
                       <div class="valid-feedback">
                         Looks good!
                       </div>
                     </div>
                     <div class="col-md-4 mb-3">
                       <label for="accident-by-phone">Telephone</label>
-                      <input type="tel" class="form-control is-invalid" id="accident-by-phone" placeholder="256772000123"  required>
+                      <input type="tel" class="form-control is-invalid" id="accident-by-phone" placeholder="256772000123"  
+                        pattern="2567[0-9]{8}" maxlength="12" required>
                       <div class="valid-feedback">
                         Looks good!
                       </div>
@@ -55,7 +60,7 @@
                     <div class="col-md mb-3">
                         <label for="accident-by-victim">Victim of Accident</label>
                         <div class="custom-control  custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="accident-by-victim">
+                            <input type="checkbox" class="custom-control-input" id="accident-by-victim" required>
                             <label class="custom-control-label" for="accident-by-victim">Yes</label>
                         </div>
                     </div>
@@ -64,7 +69,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Submit Accident</button>
+            <button type="submit" class="btn btn-primary">Submit Accident</button>
             </div>
         </div>
         </div>
