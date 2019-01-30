@@ -11,17 +11,18 @@
             <form>
                 <div class="form-group">
                 <label for="username-name" class="col-form-label">Username :</label>
-                <input type="text" class="form-control is-valid" id="username-name">
+                <input type="text" class="form-control is-valid" id="username-name" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                 </div>
                 <div class="form-group">
                 <label for="password-name" class="col-form-label">password:</label>
-                <input type="password" class="form-control is-invalid" id="password-name"></textarea>
+                <input type="password" class="form-control is-invalid" id="password-name"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  >
                 </div>
             </form>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary">Login</button>
             </div>
         </div>
         </div>
