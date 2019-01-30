@@ -51,3 +51,7 @@ reported{
 .modal-body hr{
     margin-top:0;
 }
+
+.form-group {
+    margin-bottom: 0.2rem !important;
+}
