@@ -68,3 +68,10 @@ reported{
     margin-top: 10px;
     margin-bottom: 10px !important;
 }
+#accident-address{
+    height: 38px !important;
+}
+.bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+    font-size: 13px;
+    line-height: 20px;
+}
