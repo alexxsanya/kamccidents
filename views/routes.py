@@ -24,11 +24,11 @@ def dashboard():
 def personal_report():
     personal_report = [{
         "id": 1,
-        "title": "Item 1",
+        "title": "Accident 1",
         "location":"Ntinda"
     },{
         "id": 2,
-        "title": "Item 2",
+        "title": "Accident 2",
         "location":"Kampala"
     }]
     return json.dumps(personal_report)
