@@ -75,9 +75,11 @@
                     </span>             
                 </nav>
                 <br>
-                <table id="table">
+                <div class="table-responsive">
+                  <table id="table" class="table table-sm table-striped table-dark">
 
-                </table>   
+                  </table>   
+                </div>
             </div> 
             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
                 <nav class="navbar navbar-light bg-light">
@@ -100,9 +102,10 @@
       $('#table').bootstrapTable({
         pagination:true,
         search:true,
+        pageSize:15,
         columns: [{
           field: 'id',
-          title: 'Id'
+          title: '#'
         }, {
           field: 'title',
           title: 'Accident Title'
