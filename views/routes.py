@@ -1,5 +1,6 @@
 from flask_bootstrap import Bootstrap
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
+import json
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -18,6 +19,19 @@ def feeds():
 def dashboard():
 
     return render_template("dashboard.html")
+
+@app.route("/personal-report")
+def personal_report():
+    personal_report = [{
+        "id": 1,
+        "title": "Item 1",
+        "location":"Ntinda"
+    },{
+        "id": 2,
+        "title": "Item 2",
+        "location":"Kampala"
+    }]
+    return json.dumps(personal_report)
 
 @app.errorhandler(401)
 def error_401(error):
