@@ -54,3 +54,8 @@ reported{
 .form-group {
     margin-bottom: 0.2rem !important;
 }
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background-color: #e3f2fd !important;
+    color:#00000080 !important;
+}
