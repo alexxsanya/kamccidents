@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %} Home Page {% endblock %}
+
+<body>
+    {% block body %} 
+    {{super()}}
+    <div class="container padding">
+
+    </div> 
+    {% endblock %}
+
+</body>
+{% block scripts %}
+  {{super()}}
+  <script>
+  window.onload = function(){
+    //console.log(pickCoordinates()) 
+    //loadHeatMap()
+  }   
+  </script>
+{% endblock %}
