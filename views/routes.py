@@ -14,6 +14,11 @@ def feeds():
 
     return render_template("feeds.html")
 
+@app.route("/dashboard")
+def dashboard():
+
+    return render_template("dashboard.html")
+
 @app.errorhandler(401)
 def error_401(error):
     return render_template("401.html")
