@@ -59,3 +59,12 @@ reported{
     background-color: #e3f2fd !important;
     color:#00000080 !important;
 }
+
+#navbarDropdown{
+    cursor: pointer;
+}
+
+.accident-selector{
+    margin-top: 10px;
+    margin-bottom: 10px !important;
+}
