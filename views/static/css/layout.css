@@ -68,7 +68,7 @@ reported{
     margin-top: 10px;
     margin-bottom: 10px !important;
 }
-#accident-address{
+#accident-address,#accident-address-button{
     height: 38px !important;
 }
 .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
