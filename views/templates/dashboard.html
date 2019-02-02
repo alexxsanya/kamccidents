@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block title %} Home Page {% endblock %}
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.13.3/dist/bootstrap-table.min.css">
 <body>
     {% block body %} 
     {{super()}}
@@ -76,7 +75,7 @@
                     </span>             
                 </nav>
                 <br>
-                <table data-toggle="table">
+                <table id="table">
 
                 </table>   
             </div> 
@@ -96,36 +95,23 @@
 </body>
 {% block scripts %}
   {{super()}}
-  <script src="https://unpkg.com/bootstrap-table@1.13.3/dist/bootstrap-table.min.js"></script>
   <script>
-    datta = [{
-      id:0,
-      name:"steve",
-      price:4550
-    }];
-    $('#table').bootstrapTable({
-      //url: 'data1.json',
-      pagination: true,
-      search: true,
-      columns: [{
-        field: 'id',
-        title: 'Item ID'
-      }, {
-        field: 'name',
-        title: 'Item Name'
-      }, {
-        field: 'price',
-        title: 'Item Price'
-      }, ],
-      data: [{
-        id: 1,
-        name: 'Item 1',
-        price: '$1'
-      }, {
-        id: 2,
-        name: 'Item 2',
-        price: '$2'
-      }]
-    })
+    window.onload = function(){
+      $('#table').bootstrapTable({
+        pagination:true,
+        search:true,
+        columns: [{
+          field: 'id',
+          title: 'Id'
+        }, {
+          field: 'title',
+          title: 'Accident Title'
+        }, {
+          field: 'location',
+          title: 'Address'
+        }],
+        url:'/personal-report'
+    });
+    } 
   </script>
 {% endblock %}
