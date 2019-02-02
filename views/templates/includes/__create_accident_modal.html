@@ -34,7 +34,7 @@
                         <input type="text" class="form-control form-control-sm" id="accident-address" 
                             pattern="[0-9]{10},[0-9]{10}" maxlength="25" placeholder="Latitude, Longitude" required>
                         <div class="col-auto">
-                          <button type="button" class="btn btn-default mb-2">Pick HERE</button>
+                          <button type="button" class="btn btn-default mb-2" id="accident-address">Pick HERE</button>
                         </div>
                       </div>
                 </div>
@@ -49,22 +49,37 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-form-label font-weight-normal">Number of :</label> 
+                </div>
+                <div class="form-row">
+                    <div class="col-md-3 mb-3">
+                          <label for="un-injured" class="font-weight-light">Un-injured</label>
+                          <input type="text" class="form-control form-control-sm" id="un-injured" placeholder="0" maxlength="3" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                          <label for="minor-injuries" class="font-weight-light">Minor Injuries</label>
+                          <input type="text" class="form-control form-control-sm" id="minor-injuries" placeholder="0" maxlength="3" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                          <label for="major-injuries" class="font-weight-light">Major Injuries</label>
+                          <input type="text" class="form-control form-control-sm" id="major-injuries" placeholder="0" maxlength="3" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="no_of_dead" class="font-weight-light">Dead</label>
+                            <input type="text" class="form-control form-control-sm" id="no_of_dead" placeholder="0" maxlength="3" required>
+                        </div>
+                      </div>
                 <Reported>Reported by</Reported>
                 <hr />
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                       <label for="accident-by-name">Name</label>
                       <input type="text" class="form-control" id="accident-by-name" placeholder="First name" maxlength="15" required>
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
                     </div>
                     <div class="col-md-4 mb-3">
                       <label for="accident-by-phone">Telephone</label>
                       <input type="text" class="form-control" id="accident-by-phone" placeholder="256772000123" maxlength="12">
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
                     </div>
                     <div class="col-md mb-3">
                         <label for="accident-by-victim">Victim of Accident</label>
@@ -90,6 +105,7 @@
         bootstrapValidate('#accident-by-phone','regex:^2567[0-9]{8}:Format should be 2567________|numeric:Only number acceptable!') 
         bootstrapValidate(["#accident-by-victim"],'required')
         bootstrapValidate('#accident-by-name','regex:^[A-Za-z]{3,15}|alpha:Only Letters are acceptable')
-
+        bootstrapValidate(['#no_of_dead','#un-injured','#minor-injuries','#major-injuries'],
+                            'numeric:Only Numbers accepted | max:100:Not more than 100!')
         $('select').selectpicker();
     </script> 
