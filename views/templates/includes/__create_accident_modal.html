@@ -38,6 +38,17 @@
                         </div>
                       </div>
                 </div>
+                <div class="form-group row accident-selector">
+                    <label for="accident-involved" class="col-sm-4 col-form-label">Accident Involved</label>
+                    <div class="col-sm-8">
+                        <select class="form-control selectpicker" name="accident-involved" multiple data-live-search="true">
+                            <option value="boda">Bodas</option>
+                            <option>Taxis</option>
+                            <option>Pedestrians</option>
+                            <option>Private Car</option> 
+                        </select>
+                    </div>
+                </div>
                 <Reported>Reported by</Reported>
                 <hr />
                 <div class="form-row">
@@ -62,7 +73,7 @@
                             <label class="custom-control-label" for="accident-by-victim">Yes</label>
                         </div>
                     </div>
-                  </div>
+                </div>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -79,4 +90,6 @@
         bootstrapValidate('#accident-by-phone','regex:^2567[0-9]{8}:Format should be 2567________|numeric:Only number acceptable!') 
         bootstrapValidate(["#accident-by-victim"],'required')
         bootstrapValidate('#accident-by-name','regex:^[A-Za-z]{3,15}|alpha:Only Letters are acceptable')
+
+        $('select').selectpicker();
     </script> 
