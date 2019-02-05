@@ -8,25 +8,25 @@
             </button>
             </div>
             <div class="modal-body">
-            <form>
+            <form action="/create-accident" method="POST">
                 <div class="form-group">
                     <label for="accident-title" class="col-form-label">Title:</label>
-                    <input type="text" class="form-control form-control-sm" id="accident-title" required>
+                    <input type="text" class="form-control form-control-sm" id="accident-title" name="acc_title" required>
                 </div>
                 <div class="form-group">
                     <label for="accident-desc" class="col-form-label">Description:</label>
-                    <textarea class="form-control form-control-sm" id="accident-desc" 
+                    <textarea class="form-control form-control-sm" id="accident-desc" name="acc_desc"
                         pattern=".+{,5}" maxlength="150" rows="2" required></textarea>
                 </div>
                 <div class="form-group row accident-selector">
                     <label for="accident-time" class="col-sm-4 col-form-label">Time of Accident</label>
                     <div class="col-sm-8">
-                        <input type="datetime-local" class="form-control form-control-sm" id="accident-time" required>
+                        <input type="datetime-local" class="form-control form-control-sm" name="acc_time" id="accident-time" required>
                     </div>
                 </div>
                 <div class="custom-file">
                     <input type="file" onchange="display_this(this);" class="custom-file-input" 
-                        id="accident-photos" accept="image/*" multiple required>
+                        id="accident-photos" accept="image/*" name="acc_photo" multiple required>
                     <label class="custom-file-label" for="accident-photos">Attach Photos...</label>
                     <div class="invalid-feedback">You must Attach atleast one photo</div>
                     <div class="photo-display">
@@ -37,7 +37,8 @@
                 <div class="form-group">
                     <label for="accident-address" class="sr-only">Address:</label>
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" id="accident-address"  maxlength="64" placeholder="Latitude, Longitude" required>
+                        <input type="text" class="form-control form-control-sm" id="accident-address" name="acc_location"
+                            maxlength="64" placeholder="Latitude, Longitude" required>
                         <div class="col-auto">
                           <button type="button" class="btn btn-default mb-2" id="accident-address-button">Pick HERE</button>
                         </div>
@@ -60,19 +61,19 @@
                 <div class="form-row">
                     <div class="col-md-3 mb-3">
                           <label for="un-injured" class="font-weight-light">Un-injured</label>
-                          <input type="text" class="form-control form-control-sm" id="un-injured" placeholder="0" maxlength="3" required>
+                          <input type="text" class="form-control form-control-sm" id="un-injured" name="acc_no_uninjured" placeholder="0" maxlength="3" required>
                         </div>
                         <div class="col-md-3 mb-3">
                           <label for="minor-injuries" class="font-weight-light">Minor Injuries</label>
-                          <input type="text" class="form-control form-control-sm" id="minor-injuries" placeholder="0" maxlength="3" required>
+                          <input type="text" class="form-control form-control-sm" id="minor-injuries" name="acc_no_minor" placeholder="0" maxlength="3" required>
                         </div>
                         <div class="col-md-3 mb-3">
                           <label for="major-injuries" class="font-weight-light">Major Injuries</label>
-                          <input type="text" class="form-control form-control-sm" id="major-injuries" placeholder="0" maxlength="3" required>
+                          <input type="text" class="form-control form-control-sm" id="major-injuries" name="acc_no_major" placeholder="0" maxlength="3" required>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="no_of_dead" class="font-weight-light">Dead</label>
-                            <input type="text" class="form-control form-control-sm" id="no_of_dead" placeholder="0" maxlength="3" required>
+                            <input type="text" class="form-control form-control-sm" id="no_of_dead" name="acc_no_dead" placeholder="0" maxlength="3" required>
                         </div>
                       </div>
                 <Reported>Reported by</Reported>
@@ -80,16 +81,16 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                       <label for="accident-by-name">Name</label>
-                      <input type="text" class="form-control" id="accident-by-name" placeholder="First name" maxlength="15" required>
+                      <input type="text" class="form-control" id="accident-by-name" name="acc_by_name" placeholder="First name" maxlength="15" required>
                     </div>
                     <div class="col-md-4 mb-3">
                       <label for="accident-by-phone">Telephone</label>
-                      <input type="text" class="form-control" id="accident-by-phone" placeholder="256772000123" maxlength="12">
+                      <input type="text" class="form-control" id="accident-by-phone" name="acc_by_phone" placeholder="256772000123" maxlength="12">
                     </div>
                     <div class="col-md mb-3">
                         <label for="accident-by-victim">Victim of Accident</label>
                         <div class="custom-control  custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="accident-by-victim">
+                            <input type="checkbox" class="custom-control-input" id="accident-by-victim" name="acc_is_victim">
                             <label class="custom-control-label" for="accident-by-victim">Yes</label>
                         </div>
                     </div>
