@@ -8,14 +8,14 @@
             </button>
             </div>
             <div class="modal-body">
-            <form>
+            <form action="/login" method="POST">
                 <div class="form-group">
                 <label for="username-name" class="col-form-label">Username :</label>
-                <input type="text" class="form-control" id="username-name" required autocomplete>
+                <input type="text" class="form-control" id="username-name" name="user_name" required autocomplete>
                 </div>
                 <div class="form-group">
                 <label for="username-pass" class="col-form-label">password:</label>
-                <input type="password" class="form-control" id="username-pass" required autocomplete>
+                <input type="password" class="form-control" id="username-pass" name="user_pass" required autocomplete>
                 </div>
             </div>
             <div class="modal-footer">
