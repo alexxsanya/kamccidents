@@ -1,8 +1,11 @@
 from flask_bootstrap import Bootstrap
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, flash, redirect, url_for
 import json
+import config
 
 app = Flask(__name__)
+#app.secret_key = 'some_secret'
+app.config.from_object('config.ProductionConfig')
 Bootstrap(app)
 
 @app.route("/")
@@ -32,6 +35,11 @@ def personal_report():
         "location":"Kampala"
     }]
     return json.dumps(personal_report)
+
+@app.route("/login",methods=['POST'])
+def login_user():
+    flash('You were successfully logged in')
+    return redirect(url_for('dashboard'))
 
 @app.errorhandler(401)
 def error_401(error):
