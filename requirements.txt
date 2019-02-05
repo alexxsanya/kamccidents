@@ -54,6 +54,8 @@ urllib3==1.24.1
 wrapt==1.10.11
 flask-wtf
 flask-bootstrap4==4.0.2
+Flask-SQLAlchemy==2.3.2
+coverage==4.5.2
 flask-login
 flask-email
 flask-uploads
