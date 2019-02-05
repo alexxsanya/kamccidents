@@ -31,6 +31,7 @@
       modal.find('.modal-title').text('New message to ' + recipient)
       modal.find('.modal-body input').val(recipient)
     })
+    
     </script>
     {% endblock %}
 {% endblock %}
@@ -39,6 +40,17 @@
             {% block navbar %}
                 {% include 'includes/__nav.html' %}
             {% endblock %} 
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="status-body">
+                        {% for message in messages %}
+                            <span>{{ message }}</span>
+                        {% endfor %}  
+                    </div> 
+                {% endif %}
+            {% endwith %} 
+            <br>
             <div class="container">
                 {% include 'includes/__create_accident_modal.html' %}
                 {% include 'includes/__login_modal.html' %}
