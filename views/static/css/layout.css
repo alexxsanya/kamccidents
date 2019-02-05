@@ -75,3 +75,13 @@ reported{
     font-size: 13px;
     line-height: 20px;
 }
+.status-body {
+    padding: 2px; 
+    margin: auto;
+    width: 25%;
+    text-align: center;
+    background-color: #ddefd7;
+    color: #2dbf2d;
+    margin-top: 4px;
+    border-radius: 25px;
+}
