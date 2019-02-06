@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, flash, redirect, url_for
+from flask import Flask, render_template, jsonify, flash, redirect, url_for, request
 import json
 import os
 from . import init_app
@@ -43,13 +43,17 @@ def error_401(error):
     return render_template("401.html")
 
 @app.errorhandler(403)
-def error_401(error):
+def error_403(error):
     return render_template("403.html")
 
 @app.errorhandler(404)
-def error_401(error):
+def error_404(error):
     return render_template("404.html")
 
+@app.errorhandler(405)
+def error_405(error):
+    return render_template("405.html")
+
 @app.errorhandler(500)
-def error_401(error):
+def error_500(error):
     return render_template("500.html")
