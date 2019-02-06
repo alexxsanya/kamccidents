@@ -1,12 +1,9 @@
-from flask_bootstrap import Bootstrap
 from flask import Flask, render_template, jsonify, flash, redirect, url_for
 import json
-import config
+import os
+from . import init_app
 
-app = Flask(__name__)
-#app.secret_key = 'some_secret'
-app.config.from_object('config.ProductionConfig')
-Bootstrap(app)
+app = init_app()
 
 @app.route("/")
 def home():
