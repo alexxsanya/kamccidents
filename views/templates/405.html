@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %} Error 405 Occured {% endblock %}
+
+{% block body %}
+{{super()}}
+<div class="container">
+      <div class="jumbotron">
+            <h1 class="display-4">Error 405 Occured<!</h1>
+            <p class="lead">Method Not Allowed</p>
+            <hr class="my-4">
+            <p>The method is not allowed for the requested URL.</p>
+            <a class="btn btn-primary btn-lg" href="/" role="button">Get Me Out of Here</a>
+          </div>
+</div> 
+{% endblock %}
+{% block scripts %}
+  {{super()}}
+  <script>
+      window.onload = function(){
+        //console.log(pickCoordinates()) 
+        //loadHeatMap()
+      }  
+  </script>
+{% endblock %}
