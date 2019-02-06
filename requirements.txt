@@ -38,7 +38,7 @@ more-itertools==4.3.0
 pathlib2==2.3.2
 pep8==1.7.1
 pluggy==0.8.0
-psycopg2==2.7.6.1
+psycopg2==2.7.7
 py==1.7.0
 pycodestyle==2.4.0
 pycparser==2.19
@@ -54,7 +54,11 @@ urllib3==1.24.1
 wrapt==1.10.11
 flask-wtf
 flask-bootstrap4==4.0.2
-Flask-SQLAlchemy==2.3.2
+Flask-SQLAlchemy==2.3.2 
+flask-bcrypt==0.7.1
+Flask-Migrate==2.3.1
+flask-script==2.0.6 
+marshmallow==2.18.0
 coverage==4.5.2
 flask-login
 flask-email
