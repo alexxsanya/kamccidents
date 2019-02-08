@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, flash, redirect, url_for, request, Response
+from flask import Flask, render_template, jsonify, flash, redirect, url_for, request, Response,session
 import json
 import os
 from . import init_app
@@ -38,19 +38,29 @@ def personal_report():
 
 @app.route("/login",methods=['POST'])
 def login_user():
-    user = request.form.to_dict(flat=True)
-    #print(user.get("user_pass"))
-    user = UsersModel.get_user_by_email(user.get('user_name'))
-    print(user)
-    flash('You were successfully logged in')
-    return redirect(url_for('dashboard'))
+    user = request.form.to_dict(flat=True)  
 
-@app.route("logout",methods=['GET'])
-@auth.login_required
+    user = UsersModel.get_user_by_login(user.get('user_name'))    
+    print(">>> -> {} ".format(user))
+    if '@' in str(user):
+        session['username'] = str(user)
+
+        flash('You were successfully logged in')
+
+        return redirect(url_for('dashboard'))
+
+    else: 
+
+        error = {'error':"Login with wrong credentials"}
+
+        return redirect(url_for('home',error=error))
+
+@app.route("/logout",methods=['GET']) 
 def logout():
-    
-    return auth.logout
-    
+    auth.logout()
+    flash('You were successfully logged out')
+    return redirect(url_for('home'))
+
 @app.route("/create-user",methods=['POST'])
 def create_user():
     req_data = request.form.to_dict(flat=True)
