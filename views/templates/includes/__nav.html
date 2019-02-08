@@ -34,12 +34,14 @@
 			</ul>
 
 			<ul class="navbar-nav">
+				{% if not session['username'] %}
 				<li class="nav-item">
 					<a class="nav-link" href="#" data-toggle="modal" data-target="#logalModal">Login</a>
 				</li>
 				<li class="nav-item">
 						<a class="nav-link" href="#" data-toggle="modal" data-target="#signupModal">Create Account</a>
 				</li>
+				{% endif %}
 				{% if session['username'] %}
 				<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
