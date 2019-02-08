@@ -2,9 +2,9 @@ from flask import Flask, render_template, jsonify, flash, redirect, url_for, req
 import json
 import os
 from . import init_app
-
+from controllers.auth import Auth
 app = init_app()
-
+auth = Auth()
 from models.user_model import UserSchema,UsersModel
 
 @app.route("/")
@@ -18,6 +18,7 @@ def feeds():
     return render_template("feeds.html")
 
 @app.route("/dashboard")
+@auth.login_required
 def dashboard():
 
     return render_template("dashboard.html")
@@ -44,6 +45,12 @@ def login_user():
     flash('You were successfully logged in')
     return redirect(url_for('dashboard'))
 
+@app.route("logout",methods=['GET'])
+@auth.login_required
+def logout():
+    
+    return auth.logout
+    
 @app.route("/create-user",methods=['POST'])
 def create_user():
     req_data = request.form.to_dict(flat=True)
