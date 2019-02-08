@@ -51,17 +51,19 @@ class UsersModel(db.Model):
   def get_one_user(id):
     return UsersModel.query.get(id)
 
+  @staticmethod
+  def get_user_by_login(email): 
+    return UsersModel.query.filter_by(email=email).first()
+
   def __repr__(self):
-    return '<id {}>'.format(self.id)
+    return self.email
 
   def __generate_hash(self, password):
     return bcrypt.generate_password_hash(password, rounds=10).decode("utf-8")
   
   def check_hash(self, password):
     return bcrypt.check_password_hash(self.password, password)
-  @staticmethod
-  def get_user_by_email(email):
-    return UsersModel.query.filter_by(email=email).first()
+
 # add this class
 class UserSchema(Schema):
   """
