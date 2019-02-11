@@ -1,15 +1,15 @@
 {% extends "layout.html" %}
-{% block title %} Server Error 500 Occured {% endblock %}
+{% block title %}  {% endblock %}
 
 {% block body %}
 {{super()}}
 <div class="container">
         <div class="jumbotron">
-              <h1 class="display-4">Server Error 500 Occured</h1>
-              <p class="lead">An Internal Error Occured</p>
+              <h1 class="display-4">{{error.title}}</h1>
+              <p class="lead">{{error.desc}}</p>
               <hr class="my-4">
-              <p> Contact system support unit for assistance on this Erro</p>
-              <a class="btn btn-primary btn-lg" href="/contact" role="button">Contact Support Team</a>
+              <p>{{error.tip}}</p>
+              <a class="btn btn-primary btn-lg" href={{error.url}} role="button">{{error.action}}</a>
         </div>
   </div> 
 {% endblock %}

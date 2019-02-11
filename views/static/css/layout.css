@@ -84,4 +84,9 @@ reported{
     color: #2dbf2d;
     margin-top: 4px;
     border-radius: 25px;
+    -webkit-transition-property: display; /* Safari */
+    -webkit-transition-duration: 2s; /* Safari */
+    transition-property: display;
+    transition-duration: 2s;
+    transition-timing-function: ease-in;
 }

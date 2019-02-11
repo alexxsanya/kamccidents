@@ -32,6 +32,13 @@
       modal.find('.modal-body input').val(recipient)
     })
     
+    $(window).on('load',function(){
+        if($('.status-body').css("display") != "none"){
+            setTimeout(function() {  
+                $('.status-body').css("display",'none')
+            }, 3000);
+        }
+    })
     </script>
     {% endblock %}
 {% endblock %}

@@ -3,9 +3,10 @@ import json
 import os
 from . import init_app
 from controllers.auth import Auth
+from models.user_model import UserSchema,UsersModel
+from error import ErrorPage
 app = init_app()
 auth = Auth()
-from models.user_model import UserSchema,UsersModel
 
 @app.route("/")
 def home():
@@ -87,6 +88,16 @@ def create_user():
 
     return custom_response({'data': ser_data}, 201)
 
+@app.route("/error")
+def err():
+    error = {
+        'title':"Error 401 Occured",
+        'desc':"You are unathorized to access this resource",
+        'tip':"Please first login to access this page.",
+        'url':"/"
+    }
+    return render_template("error.html",**locals())
+
 def custom_response(res, status_code):
   """
   Custom Response Function
@@ -99,20 +110,55 @@ def custom_response(res, status_code):
 
 @app.errorhandler(401)
 def error_401(error):
-    return render_template("401.html")
+    error = {
+        'title':"Error 401 Occured",
+        'desc':"You are unathorized to access this resource",
+        'tip':"Please first login to access this page.",
+        'url':"/",
+        'action':"Get Me Out of Here"
+    }
+    return render_template("error.html",**locals())
 
 @app.errorhandler(403)
 def error_403(error):
-    return render_template("403.html")
+    error = {
+        'title':"Error 403 Occured",
+        'desc':"You are forbidden from accessing this resource",
+        'tip':"Contact Admin for details on why.",
+        'url':"/contact",
+        'action':'Contact Support Team'
+    }
+    return render_template("error.html",**locals())
 
 @app.errorhandler(404)
-def error_404(error):
-    return render_template("404.html")
+def error_404(error):    
+    error = {
+        'title':"Error 404 Occured!",
+        'desc':"Requested Resource Not Found",
+        'tip':"The resource you are trying to access does not exist here",
+        'url':"/",
+        'action':"Get Me Out of Here"
+    }
+    return render_template("error.html",**locals())
 
 @app.errorhandler(405)
 def error_405(error):
-    return render_template("405.html")
+    error = {
+        'title':"Error 405 Occured!",
+        'desc':"Method Not Allowed",
+        'tip':"The method is not allowed for the requested URL.",
+        'url':"/",
+        'action':"Get Me Out of Here"
+    }
+    return render_template("error.html",**locals())
 
 @app.errorhandler(500)
 def error_500(error):
-    return render_template("500.html")
+    error = {
+        'title':"Server Error 500 Occured",
+        'desc':"An Internal Error Occured",
+        'tip':"Contact system support unit for assistance on this Erro",
+        'url':"/contact",
+        "action":"Contact Support Team"
+    }
+    return render_template("error.html",**locals())
