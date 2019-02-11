@@ -4,7 +4,6 @@ import os
 from . import init_app
 from controllers.auth import Auth
 from models.user_model import UserSchema,UsersModel
-from error import ErrorPage
 app = init_app()
 auth = Auth()
 
@@ -87,16 +86,6 @@ def create_user():
     ser_data = UserSchema().dump(user).data
 
     return custom_response({'data': ser_data}, 201)
-
-@app.route("/error")
-def err():
-    error = {
-        'title':"Error 401 Occured",
-        'desc':"You are unathorized to access this resource",
-        'tip':"Please first login to access this page.",
-        'url':"/"
-    }
-    return render_template("error.html",**locals())
 
 def custom_response(res, status_code):
   """
