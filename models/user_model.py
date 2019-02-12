@@ -52,7 +52,7 @@ class UsersModel(db.Model):
     return UsersModel.query.get(id)
 
   @staticmethod
-  def get_user_by_login(email): 
+  def get_user_by_email(email): 
     return UsersModel.query.filter_by(email=email).first()
 
   def __repr__(self):
@@ -64,7 +64,6 @@ class UsersModel(db.Model):
   def check_hash(self, password):
     return bcrypt.check_password_hash(self.password, password)
 
-# add this class
 class UserSchema(Schema):
   """
   User Schema
