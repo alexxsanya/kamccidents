@@ -40,14 +40,15 @@
                         <input type="text" class="form-control form-control-sm" id="accident-address" name="acc_location"
                             maxlength="64" placeholder="Latitude, Longitude" required>
                         <div class="col-auto">
-                          <button type="button" class="btn btn-default mb-2" id="accident-address-button">Pick HERE</button>
+                          <button type="button" class="btn btn-default mb-2" id="accident-address-button"
+                            onclick="pickCoordinates();">Pick HERE</button>
                         </div>
                       </div>
                 </div>
                 <div class="form-group row accident-selector">
                     <label for="accident-involved" class="col-sm-4 col-form-label">Accident Involved</label>
                     <div class="col-sm-8">
-                        <select class="form-control selectpicker" name="accident-involved" multiple data-live-search="true">
+                        <select class="form-control selectpicker" id="accident-involved" name="acc_involved" multiple data-live-search="true" required>
                             <option value="boda">Bodas</option>
                             <option>Taxis</option>
                             <option>Pedestrians</option>
@@ -76,25 +77,10 @@
                             <input type="text" class="form-control form-control-sm" id="no_of_dead" name="acc_no_dead" placeholder="0" maxlength="3" required>
                         </div>
                       </div>
-                <Reported>Reported by</Reported>
-                <hr />
-                <div class="form-row">
-                    <div class="col-md-4 mb-3">
-                      <label for="accident-by-name">Name</label>
-                      <input type="text" class="form-control" id="accident-by-name" name="acc_by_name" placeholder="First name" maxlength="15" required>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label for="accident-by-phone">Telephone</label>
-                      <input type="text" class="form-control" id="accident-by-phone" name="acc_by_phone" placeholder="256772000123" maxlength="12">
-                    </div>
-                    <div class="col-md mb-3">
-                        <label for="accident-by-victim">Victim of Accident</label>
-                        <div class="custom-control  custom-checkbox">
+                      <div class="custom-control  custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="accident-by-victim" name="acc_is_victim">
-                            <label class="custom-control-label" for="accident-by-victim">Yes</label>
-                        </div>
-                    </div>
-                </div>
+                            <label class="custom-control-label" for="accident-by-victim">Yes, I am a Victim of this Accident</label>
+                      </div>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -108,9 +94,6 @@
     <script>
         bootstrapValidate(['#accident-title','#accident-desc'], 'min:10:Enter at least 10 characters!')
         bootstrapValidate('#accident-photos','required:You must atleast select one accident photo')
-        bootstrapValidate('#accident-by-phone','regex:^2567[0-9]{8}:Format should be 2567________|numeric:Only number acceptable!') 
-        bootstrapValidate(["#accident-by-victim"],'required')
-        bootstrapValidate('#accident-by-name','regex:^[A-Za-z]{3,15}|alpha:Only Letters are acceptable')
         bootstrapValidate(['#no_of_dead','#un-injured','#minor-injuries','#major-injuries'],
                             'numeric:Only Numbers accepted')
         bootstrapValidate('#accident-address', 'regex:^([-+]?)([\d]{1,2})(((\.)(\d+)(,)))(\s*)(([-+]?)([\d]{1,3})((\.)(\d+))?)$:\
