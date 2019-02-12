@@ -75,13 +75,12 @@ reported{
     font-size: 13px;
     line-height: 20px;
 }
-.status-body {
+.flash-status {
     padding: 2px; 
     margin: auto;
     width: 25%;
+    max-width: 70%;
     text-align: center;
-    background-color: #ddefd7;
-    color: #2dbf2d;
     margin-top: 4px;
     border-radius: 25px;
     -webkit-transition-property: display; /* Safari */
@@ -89,4 +88,12 @@ reported{
     transition-property: display;
     transition-duration: 2s;
     transition-timing-function: ease-in;
+}
+.status-success{
+    color: #2dbf2d;
+    background-color: #ddefd7;
+}
+.status-error{
+    color:rgb(241, 9, 9);
+    background-color: #ee90894d;
 }
