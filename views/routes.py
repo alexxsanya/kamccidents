@@ -40,34 +40,32 @@ def personal_report():
 def login_user():
     user = request.form.to_dict(flat=True)  
 
-    user = UsersModel.get_user_by_login(user.get('user_name'))    
-    print(">>> -> {} ".format(user))
+    user = UsersModel.get_user_by_email(user.get('user_name'))    
+    
     if '@' in str(user):
         session['username'] = str(user)
 
-        flash('You were successfully logged in')
+        flash('You are successfully logged in','success')
 
         return redirect(url_for('dashboard'))
 
     else: 
 
-        error = {'error':"Login with wrong credentials"}
+        flash('Logged in with wrong credentials','error')
 
-        return redirect(url_for('home',error=error))
+        return redirect(url_for('home'))
 
 @app.route("/logout",methods=['GET']) 
 def logout():
     auth.logout()
-    flash('You were successfully logged out')
+    flash('You are successfully logged out','success')
     return redirect(url_for('home'))
 
 @app.route("/create-user",methods=['POST'])
 def create_user():
     req_data = request.form.to_dict(flat=True)
 
-    req_data['firstname'],req_data['lastname'] =req_data.get('name').split(",") 
-
-    print(">>> {} ".format(req_data))
+    req_data['firstname'],req_data['lastname'] =req_data.get('name').split(",")  
     
     data, error = UserSchema().load(req_data)
 
@@ -77,15 +75,17 @@ def create_user():
   # check if user already exist in the db
     user_in_db = UsersModel.get_user_by_email(data.get('email'))
     if user_in_db:
-        message = {'error': 'User already exist, please supply another email address'}  
-        return custom_response(message, 400)
+        message = 'User already exist with supplied email address'
+        flash(message,'error')        
+        return redirect(url_for('home'))
 
     user = UsersModel(data)
     user.save()
 
-    ser_data = UserSchema().dump(user).data
-
-    return custom_response({'data': ser_data}, 201)
+    #ser_data = UserSchema().dump(user).data
+    message = "Account Created, Now Login"
+    flash(message,'success')        
+    return redirect(url_for('home'))
 
 def custom_response(res, status_code):
   """
