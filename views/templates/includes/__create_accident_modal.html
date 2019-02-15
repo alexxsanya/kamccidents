@@ -13,6 +13,10 @@
                     <label for="accident-title" class="col-form-label">Title:</label>
                     <input type="text" class="form-control form-control-sm" id="accident-title" name="acc_title" required>
                 </div>
+                {% if session['user_id'] %} 
+                    <input type="number" class="form-control form-control-sm" id="accident-createdby" 
+                        value="{{session['user_id']}}" name="acc_created_by" hidden required>
+                {% endif %}
                 <div class="form-group">
                     <label for="accident-desc" class="col-form-label">Description:</label>
                     <textarea class="form-control form-control-sm" id="accident-desc" name="acc_desc"
@@ -26,7 +30,7 @@
                 </div>
                 <div class="custom-file">
                     <input type="file" onchange="display_this(this);" class="custom-file-input" 
-                        id="accident-photos" accept="image/*" name="acc_photo" multiple required>
+                        id="accident-photos" accept="image/*" name="acc_photo" required>
                     <label class="custom-file-label" for="accident-photos">Attach Photos...</label>
                     <div class="invalid-feedback">You must Attach atleast one photo</div>
                     <div class="photo-display">
@@ -48,8 +52,9 @@
                 <div class="form-group row accident-selector">
                     <label for="accident-involved" class="col-sm-4 col-form-label">Accident Involved</label>
                     <div class="col-sm-8">
-                        <select class="form-control selectpicker" id="accident-involved" name="acc_involved" multiple data-live-search="true" required>
-                            <option value="boda">Bodas</option>
+                        <select class="form-control selectpicker" id="accident-involved" name="acc_involved" 
+                            multiple="multiple" data-live-search="true" required>
+                            <option>Bodas</option>
                             <option>Taxis</option>
                             <option>Pedestrians</option>
                             <option>Private Car</option> 
