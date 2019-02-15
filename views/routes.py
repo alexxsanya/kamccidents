@@ -4,6 +4,13 @@ import os
 from . import init_app
 from controllers.auth import Auth
 from models.user_model import UserSchema,UsersModel
+from models.accident_model import (AccidentsModelSchema, 
+                                   AccidentsModel,
+                                   AccidentStatModel,
+                                   AccidentStatModelSchema)
+
+from werkzeug import secure_filename
+
 app = init_app()
 auth = Auth()
 
@@ -42,8 +49,11 @@ def login_user():
 
     user = UsersModel.get_user_by_email(user.get('user_name'))    
     
-    if '@' in str(user):
-        session['username'] = str(user)
+    user = UserSchema().dump(user).data 
+
+    if user != None and '@' in str(user.get('email')):
+        session['username'] = user.get('email')
+        session['user_id'] = user.get('id')
 
         flash('You are successfully logged in','success')
 
@@ -86,6 +96,25 @@ def create_user():
     message = "Account Created, Now Login"
     flash(message,'success')        
     return redirect(url_for('home'))
+
+@app.route("/create-accident", methods=['POST'])
+#@auth.login_required
+def create_accident():
+    req_data = request.form.to_dict(flat=True)
+    accident_photo = request.files['acc_photo']
+    photo_name = accident_photo.filename
+    req_data['acc_photo'] = photo_name
+    req_data['acc_involved'] = request.form.getlist('acc_involved')
+    #accident_photo.save(secure_filename(photo_name))
+    #print(req_data)
+    data1, error1 = AccidentsModelSchema().load(req_data)
+    data2, error2 = AccidentStatModelSchema().load(req_data)
+    data = {**data1, **data2}
+    error = {**error1, **error2}
+
+    print(error)
+
+    return jsonify(req_data)
 
 def custom_response(res, status_code):
   """
