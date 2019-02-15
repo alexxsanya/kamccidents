@@ -64,4 +64,3 @@ flask-login
 flask-email
 flask-uploads
 flask-user
-flask-login
