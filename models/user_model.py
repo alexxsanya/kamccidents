@@ -11,9 +11,9 @@ class UsersModel(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   firstname = db.Column(db.String(25), nullable=False)
   lastname = db.Column(db.String(25), nullable=False)
-  email = db.Column(db.Text,nullable=False)
+  email = db.Column(db.Text,nullable=False,unique=True)
   password = db.Column(db.Text, nullable=False)
-  phone = db.Column(db.String(12),nullable=False)
+  phone = db.Column(db.String(12),nullable=False,unique=True)
   created_at = db.Column(db.DateTime)
   modified_at = db.Column(db.DateTime)
 
@@ -56,7 +56,12 @@ class UsersModel(db.Model):
     return UsersModel.query.filter_by(email=email).first()
 
   def __repr__(self):
-    return self.email
+    user = {
+      'id':self.id,
+      'email':self.email,
+      'name':self.firstname
+    }
+    return "{}".format(user)
 
   def __generate_hash(self, password):
     return bcrypt.generate_password_hash(password, rounds=10).decode("utf-8")

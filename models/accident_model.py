@@ -14,9 +14,9 @@ class AccidentsModel(db.Model):
   acc_time = db.Column(db.Text,nullable=False)
   acc_location = db.Column(db.String(250), nullable=False)
   acc_involved = db.Column(db.String(250), nullable=False) 
-  acc_is_victim = db.Column(db.Boolean,nullable=False) 
+  acc_is_victim = db.Column(db.Boolean,nullable=True) 
   acc_photo = db.Column(db.String(100), nullable=False)
-  acc_created_by = db.Column(db.Integer,nullable=False, db.ForeignKey('users.id'))
+  acc_created_by = db.Column(db.Integer,db.ForeignKey('users.id'))
   created_at = db.Column(db.DateTime)
   modified_at = db.Column(db.DateTime)
 
@@ -52,7 +52,7 @@ class AccidentsModel(db.Model):
 
   @staticmethod
   def get_one_accident(id):
-    return AccidentsModel.query
+    return AccidentsModel.query \
       .join(AccidentStatModel) \
       .filter(AccidentStatModel.acc_id.ilike(id)) \
       .get(id)
@@ -68,7 +68,7 @@ class AccidentStatModel(db.Model):
   __tablename__ = 'accidents_stat'
 
   id = db.Column(db.Integer, primary_key=True)
-  acc_id = db.Column(db.Integer, nullable=False)
+  acc_id = db.Column(db.Integer, db.ForeignKey('accidents.id'),unique=True)
   acc_no_uninjured = db.Column(db.Integer,nullable=False)
   acc_no_minor = db.Column(db.Integer,nullable=False)
   acc_no_major = db.Column(db.Integer, nullable=False)
@@ -113,7 +113,7 @@ class AccidentsModelSchema(Schema):
   acc_time = fields.DateTime(required=True)
   acc_location = fields.Str(required=True)
   acc_involved = fields.Str(required=True)
-  acc_is_victim = fields.Boolean(required=True)
+  acc_is_victim = fields.Boolean()
   acc_photo = fields.Str(required=True)
   acc_created_by = fields.Int(required=True)  
   created_at = fields.DateTime(dump_only=True)
