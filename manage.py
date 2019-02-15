@@ -1,6 +1,10 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from models.user_model import UsersModel,UserSchema
+from models.accident_model import (AccidentsModelSchema, 
+                                   AccidentsModel,
+                                   AccidentStatModel,
+                                   AccidentStatModelSchema)
 from views import init_app, db
 
 app = init_app()
