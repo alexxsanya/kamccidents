@@ -3,6 +3,7 @@
 <body>
     {% block body %} 
     {{super()}}
+    <input type="text" value="{{ session['user_id'] }}" id="session_user_id" hidden/>
     <div class="container padding">
       <div class="row">
         <div class="col-3">
@@ -100,6 +101,7 @@
   {{super()}}
   <script>
     window.onload = function(){
+      user_id = $('#session_user_id').val() 
       $('#table').bootstrapTable({
         pagination:true,
         search:true,
@@ -108,13 +110,13 @@
           field: 'id',
           title: '#'
         }, {
-          field: 'title',
+          field: 'acc_title',
           title: 'Accident Title'
         }, {
-          field: 'location',
-          title: 'Address'
+          field: 'acc_time',
+          title: 'Time Reported'
         }],
-        url:'/personal-report'
+        url:'/all-accidents/'+user_id
     });
     } 
   </script>
