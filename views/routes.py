@@ -29,20 +29,7 @@ def feeds():
 def dashboard():
 
     return render_template("dashboard.html")
-
-@app.route("/personal-report")
-def personal_report():
-    personal_report = [{
-        "id": 1,
-        "title": "Accident 1",
-        "location":"Ntinda"
-    },{
-        "id": 2,
-        "title": "Accident 2",
-        "location":"Kampala"
-    }]
-    return json.dumps(personal_report)
-
+    
 @app.route("/login",methods=['POST'])
 def login_user():
     user = request.form.to_dict(flat=True)  
@@ -104,17 +91,53 @@ def create_accident():
     accident_photo = request.files['acc_photo']
     photo_name = accident_photo.filename
     req_data['acc_photo'] = photo_name
-    req_data['acc_involved'] = request.form.getlist('acc_involved')
+    req_data['acc_involved'] = str(request.form.getlist('acc_involved'))
+    req_data['acc_is_victim'] = False
+    if "acc_is_victim" in req_data:
+        req_data['acc_is_victim'] = True
+        
     #accident_photo.save(secure_filename(photo_name))
     #print(req_data)
     data1, error1 = AccidentsModelSchema().load(req_data)
-    data2, error2 = AccidentStatModelSchema().load(req_data)
-    data = {**data1, **data2}
-    error = {**error1, **error2}
 
-    print(error)
+    if error1:
+        return custom_response(error1, 400)
 
-    return jsonify(req_data)
+  # check if this acccident is not already in the db
+    accident_in_db = AccidentsModel.get_accident_by_title(req_data.get('acc_title'))
+    if str(accident_in_db) != "None":
+        message = 'Accident already exists in the database'
+        flash(message,'error')        
+        return redirect(url_for('home'))
+
+    new_accident = AccidentsModel(data1)
+    new_accident.save()
+    new_accident_data = AccidentsModelSchema().dump(new_accident).data 
+    
+    #Adding accident statistics to the stat tab
+    acc_id = new_accident_data.get('id')
+    if type(acc_id) is int:
+        req_data['acc_id'] = acc_id 
+        data2, error2 = AccidentStatModelSchema().load(req_data)
+        if error1:
+            return custom_response(error, 400)
+        new_accident_stat = AccidentStatModel(data2)
+        new_accident_stat.save() 
+
+        message = "Accident Added Successfully"
+        flash(message,'success')        
+        return redirect(url_for('home'))
+    else:
+        message = "Error 142 occured"
+        flash(message,'error')        
+        return redirect(url_for('home'))
+        
+@app.route("/all-accidents/<int:user_id>",methods=['GET'])
+def get_user_accident_report(user_id):
+    accident =  AccidentsModel.get_all_accidents(user_id) 
+    data = AccidentsModelSchema().dump(accident, many=True).data
+    print(data)
+    return jsonify(data)
 
 def custom_response(res, status_code):
   """
