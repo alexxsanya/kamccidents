@@ -20,4 +20,5 @@ class Auth():
     @staticmethod
     def logout():
         session.pop("username",None)
+        session.pop("user_id",None)
         return True
