@@ -47,8 +47,8 @@ class AccidentsModel(db.Model):
     de.session.commit()
   
   @staticmethod
-  def get_all_accidents():
-    return AccidentsModel.query.all()
+  def get_all_accidents(user_id):
+    return AccidentsModel.query.filter_by(acc_created_by=user_id).all()
 
   @staticmethod
   def get_one_accident(id):
@@ -56,6 +56,10 @@ class AccidentsModel(db.Model):
       .join(AccidentStatModel) \
       .filter(AccidentStatModel.acc_id.ilike(id)) \
       .get(id)
+  
+  @staticmethod
+  def get_accident_by_title(title):
+    return AccidentsModel.query.filter_by(acc_title=title).first()
 
   def __repr__(self):
     return '<id {}>'.format(self.id)
@@ -77,7 +81,7 @@ class AccidentStatModel(db.Model):
   modified_at = db.Column(db.DateTime)
 
   def __init__(self, data):
-    self.acc_id = data.get('id')
+    self.acc_id = data.get('acc_id')
     self.acc_no_uninjured = data.get('acc_no_uninjured')
     self.acc_no_minor = data.get('acc_no_minor')
     self.acc_no_major = data.get('acc_no_major')
@@ -110,7 +114,7 @@ class AccidentsModelSchema(Schema):
   id = fields.Int(dump_only=True)
   acc_title = fields.Str(required=True)
   acc_desc = fields.Str(required=True)
-  acc_time = fields.DateTime(required=True)
+  acc_time = fields.Str(required=True)
   acc_location = fields.Str(required=True)
   acc_involved = fields.Str(required=True)
   acc_is_victim = fields.Boolean()
