@@ -13,6 +13,7 @@ class AccidentsModel(db.Model):
   acc_desc = db.Column(db.Text, nullable=False)
   acc_time = db.Column(db.Text,nullable=False)
   acc_location = db.Column(db.String(250), nullable=False)
+  acc_area_name = db.Column(db.String(250))
   acc_involved = db.Column(db.String(250), nullable=False) 
   acc_is_victim = db.Column(db.Boolean,nullable=True) 
   acc_photo = db.Column(db.String(100), nullable=False)
@@ -25,6 +26,7 @@ class AccidentsModel(db.Model):
     self.acc_desc = data.get('acc_desc')
     self.acc_time = data.get('acc_time')
     self.acc_location = data.get('acc_location')
+    self.acc_area_name = data.get('acc_area_name')
     self.acc_involved = data.get('acc_involved')
     self.acc_is_victim = data.get('acc_is_victim')
     self.acc_photo = data.get('acc_photo')
@@ -51,11 +53,11 @@ class AccidentsModel(db.Model):
     return AccidentsModel.query.filter_by(acc_created_by=user_id).all()
 
   @staticmethod
+  def get_accidents_from_db():
+    return AccidentsModel.query.all()
+  @staticmethod
   def get_one_accident(id):
-    return AccidentsModel.query \
-      .join(AccidentStatModel) \
-      .filter(AccidentStatModel.acc_id.ilike(id)) \
-      .get(id)
+    return AccidentsModel.query.get(id)
   
   @staticmethod
   def get_accident_by_title(title):
@@ -102,7 +104,11 @@ class AccidentStatModel(db.Model):
   def delete(self):
     db.session.delete(self)
     de.session.commit()
-
+  
+  @staticmethod
+  def get_accident_stat(id):
+    return AccidentStatModel.query.filter_by(acc_id=id).first()
+    
   def __repr__(self):
     return '<id {}>'.format(self.id)
 
@@ -116,6 +122,7 @@ class AccidentsModelSchema(Schema):
   acc_desc = fields.Str(required=True)
   acc_time = fields.Str(required=True)
   acc_location = fields.Str(required=True)
+  acc_area_name = fields.Str(required=True)
   acc_involved = fields.Str(required=True)
   acc_is_victim = fields.Boolean()
   acc_photo = fields.Str(required=True)
