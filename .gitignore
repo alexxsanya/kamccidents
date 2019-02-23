@@ -103,3 +103,6 @@ venv.bak/
 .idea
 
 .vscode
+
+.prodenv
+views/static/uploaded_files/
