@@ -9,8 +9,8 @@
         <div class="col-3">
           <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Dashboard</a>
+            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">My Reports</a>  
             <a class="nav-link" data-toggle="modal" data-target="#exampleModal"  href="#">Report Accident</a>
-            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Reported</a> 
             <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
           </div>
         </div>
@@ -98,8 +98,21 @@
 
 </body>
 {% block scripts %}
-  {{super()}}
+  {{super()}} 
   <script>
+    function operateFormatter(value, row, index) {
+      return [
+        '<a class="like" href="javascript:void(0)" title="View the details of this accident">',
+        '<i class="fa fa-heart">view</i>',
+        '</a>  '
+      ].join('')
+    }
+    window.operateEvents = {
+      'click .like': function (e, value, row, index) {
+        //alert('You click like action, row: ' + JSON.stringify(row))
+        window.location.href = '/accident/'+row.id;
+      }
+    }
     window.onload = function(){
       user_id = $('#session_user_id').val() 
       $('#table').bootstrapTable({
@@ -115,6 +128,12 @@
         }, {
           field: 'acc_time',
           title: 'Time Reported'
+        }, {
+          field: 'operate',
+          title: '',
+          align: 'center',
+          events: window.operateEvents,
+          formatter: operateFormatter
         }],
         url:'/all-accidents/'+user_id
     });
