@@ -97,3 +97,39 @@ reported{
     color:rgb(241, 9, 9);
     background-color: #ee90894d;
 }
+
+.acc-status-div{
+    margin:10px 10px 0 10px !important;
+    font-size:11px !important;
+}
+.acc-status{
+    font-size: 20px;
+    padding:5px !important;
+    margin-bottom: 0.2rem !important;
+}
+
+.col-status{
+    padding-right: 5px !important; 
+    padding-left: 5px !important; 
+}
+
+.table tr{
+    cursor: pointer;
+}
+
+loading{
+    position:absolute;
+    top:45%;
+    left:42%;
+    font-size:1.5rem;
+    color:rgb(145, 143, 143);
+    animation: blink 2s linear infinite;
+}
+
+@keyframes blink{
+0%{opacity: 0;}
+25%{opacity: 0.25;}
+50%{opacity: .5;}
+75%{opacity: 0.75;}
+100%{opacity: 1;}
+}
