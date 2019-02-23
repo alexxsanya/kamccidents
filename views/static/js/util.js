@@ -18,8 +18,8 @@ function close_display(){
 }
 
 function pickCoordinates() {
-    var output = $("#accident-address");
-  
+    var output = document.getElementById('accident-address'); 
+    
     if (!navigator.geolocation){
       output.value = "Geolocation is not supported by your browser";
       return;
@@ -28,7 +28,8 @@ function pickCoordinates() {
     function success(position) {
       var latitude  = position.coords.latitude;
       var longitude = position.coords.longitude;
-      output.value = latitude + ',' + longitude;
+
+      output.value = formatted_coord(latitude) + ',' + formatted_coord(longitude);
     }
   
     function error() {
@@ -40,3 +41,12 @@ function pickCoordinates() {
     navigator.geolocation.getCurrentPosition(success, error);
     
   }
+
+function formatted_coord(str){
+
+  if(str.length>12){
+    return str.substring(0, 12)
+  }else{
+    return str
+  }
+}
