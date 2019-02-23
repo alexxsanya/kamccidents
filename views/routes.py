@@ -1,8 +1,14 @@
-from flask import Flask, render_template, jsonify, flash, redirect, url_for, request, Response,session
+from flask import (Flask, 
+                    render_template, 
+                    jsonify, flash, 
+                    redirect, url_for, request, 
+                    Response,session,abort,
+                    send_from_directory)
 import json
 import os
 from . import init_app
 from controllers.auth import Auth
+from controllers.util import Util
 from models.user_model import UserSchema,UsersModel
 from models.accident_model import (AccidentsModelSchema, 
                                    AccidentsModel,
@@ -29,7 +35,7 @@ def feeds():
 def dashboard():
 
     return render_template("dashboard.html")
-    
+
 @app.route("/login",methods=['POST'])
 def login_user():
     user = request.form.to_dict(flat=True)  
@@ -85,7 +91,7 @@ def create_user():
     return redirect(url_for('home'))
 
 @app.route("/create-accident", methods=['POST'])
-#@auth.login_required
+@auth.login_required
 def create_accident():
     req_data = request.form.to_dict(flat=True)
     accident_photo = request.files['acc_photo']
@@ -95,9 +101,12 @@ def create_accident():
     req_data['acc_is_victim'] = False
     if "acc_is_victim" in req_data:
         req_data['acc_is_victim'] = True
-        
-    #accident_photo.save(secure_filename(photo_name))
-    #print(req_data)
+    photo_name = secure_filename(photo_name)
+    
+    if Util.allowed_photos(photo_name):
+        path = "views/"+os.path.join(app.config['UPLOAD_FOLDER'],photo_name)
+        accident_photo.save(path)
+
     data1, error1 = AccidentsModelSchema().load(req_data)
 
     if error1:
@@ -133,11 +142,47 @@ def create_accident():
         return redirect(url_for('home'))
         
 @app.route("/all-accidents/<int:user_id>",methods=['GET'])
+@auth.login_required
 def get_user_accident_report(user_id):
     accident =  AccidentsModel.get_all_accidents(user_id) 
-    data = AccidentsModelSchema().dump(accident, many=True).data
-    print(data)
+    data = AccidentsModelSchema().dump(accident, many=True).data 
     return jsonify(data)
+
+@app.route("/accident/<int:accident_id>")
+@auth.login_required
+def get_accident(accident_id): 
+    accident = AccidentsModel.get_one_accident(accident_id)    
+    accident_stat = AccidentStatModel.get_accident_stat(accident_id)
+    
+    if not accident or not accident_stat:
+        abort(413) # Using 413 in place of 204 No Content Found
+
+    accident = AccidentsModelSchema().dump(accident).data
+
+    stat = AccidentStatModelSchema().dump(accident_stat).data 
+
+    data = {**accident,**stat}
+
+    return render_template("accident.html",accident=data)
+    #return custom_response(data, 200)
+
+@app.route('/uploaded_files/<img_uri>')
+def get_photo(img_uri): 
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               img_uri)
+
+
+@app.route('/reports/charts')
+def generate_chart_report():
+    acc_involved = ['boda','taxi','Pedestrians','lorry','buses']
+    accident =  AccidentsModel.get_accidents_from_db() 
+    data = AccidentsModelSchema().dump(accident, many=True).data 
+    list = []
+    for x in acc_involved:
+        item = [a for a in data if x in str(a)]
+        new_item = [x.title(),len(item)]
+        list.append(new_item)
+    return render_template('chart_report.html',**locals())
 
 def custom_response(res, status_code):
   """
@@ -189,6 +234,17 @@ def error_405(error):
         'desc':"Method Not Allowed",
         'tip':"The method is not allowed for the requested URL.",
         'url':"/",
+        'action':"Get Me Out of Here"
+    }
+    return render_template("error.html",**locals())
+
+@app.errorhandler(413)
+def no_content_found(error):
+    error = {
+        'title':"No Data Found",
+        'desc':"No Accident Data is found in the system for the specified URI",
+        'tip':"Wong Accident Object.",
+        'url':"/dashboard",
         'action':"Get Me Out of Here"
     }
     return render_template("error.html",**locals())
