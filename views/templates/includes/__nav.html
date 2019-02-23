@@ -3,7 +3,8 @@
 				<img src="https://image.flaticon.com/icons/png/128/65/65788.png" width="30" height="32" alt="Accident">
 				Accidents
 		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 	
@@ -20,13 +21,14 @@
 				</li>
 				{% if session['username'] %}
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 
+						aria-haspopup="true" aria-expanded="false">
 						Reports
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#">Boda Boda Accidents</a>
-						<a class="dropdown-item" href="#">Vehicle Accidents</a>
+						<a class="dropdown-item" href="/reports/charts">Charts</a>
 						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="/reports/maps">Map View</a>
 						<a class="dropdown-item" href="#"></a>
 					</div>
 				</li>
