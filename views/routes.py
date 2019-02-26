@@ -166,6 +166,17 @@ def get_accident(accident_id):
     return render_template("accident.html",accident=data)
     #return custom_response(data, 200)
 
+@app.route("/delete/accident/<int:accident_id>", methods=['POST'])
+@auth.login_required
+def delete_accident(accident_id):
+    accident = AccidentsModel.get_one_accident(accident_id)
+    if not accident:
+        abort(404)
+    data = AccidentsModelSchema().dump(accident).data
+    accident.delete()
+    flash('Accident {}, deleted'.format(data.get('acc_title')),'success')
+    return redirect(url_for('dashboard'))
+
 @app.route('/uploaded_files/<img_uri>')
 def get_photo(img_uri): 
     return send_from_directory(app.config['UPLOAD_FOLDER'],
