@@ -1,0 +1,34 @@
+{% if accident %}
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <form action="/delete/accident" method="POST">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Are You Sure, You Want to Delete this Report</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <br>
+            {% if session['user_id'] %} 
+                <input type="number" class="form-control form-control-sm" id="accident-id" 
+                    value="{{accident.acc_id}}" name="delete_acc_id" hidden required>
+            {% endif %}            
+            <p>
+                Once this Accident is deleted, the information is unrecoverable.
+            </p>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Close</button>
+        <button type="submit" class="btn btn-danger">Yes, Continue</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>  
+<script>
+
+</script> 
+
+{% endif%}

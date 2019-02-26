@@ -1,0 +1,132 @@
+{% if accident %}
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">Update this Accident Report</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <form action="/create-accident" enctype="multipart/form-data" method="POST">
+            <div class="form-group">
+                <label for="accident-title" class="col-form-label">Title:</label>
+                <input type="text" class="form-control form-control-sm" id="accident-title" value="{{accident.acc_title}}" name="acc_title" required>
+            </div>
+            {% if session['user_id'] %} 
+                <input type="number" class="form-control form-control-sm" id="accident-createdby" 
+                    value="{{session['user_id']}}" name="acc_created_by" hidden required>
+            {% endif %}
+            <div class="form-group">
+                <label for="accident-desc" class="col-form-label">Description:</label>
+                <textarea class="form-control form-control-sm" id="accident-desc" name="acc_desc"
+                    placeholder="{{accident.acc_desc}} pattern=".+{,5}" maxlength="150" rows="2" required></textarea>
+            </div>
+            <div class="form-group row accident-selector">
+                <label for="accident-time" class="col-sm-4 col-form-label">Time of Accident</label>
+                <div class="col-sm-8">
+                    <input type="datetime-local" class="form-control form-control-sm" name="acc_time" 
+                        value="{{accident.acc_time}}" id="accident-time" required>
+                </div>
+            </div>
+            <div class="custom-file">
+                <input type="file" onchange="display_this(this);" class="custom-file-input" 
+                    value="{{accident.acc_photo}}" acc_descid="accident-photos" accept="image/*" name="acc_photo" required>
+                <label class="custom-file-label" for="accident-photos">Attach Photos...</label>
+                <div class="invalid-feedback">You must Attach atleast one photo</div>
+                <div class="photo-display">
+                    <span class="close-me" onclick="close_display();">&times;</span>
+                    <img id="accident_image" src="http://placehold.it/48" alt="your image" />
+                </div>
+            </div>
+            <div class="form-group">
+                    <label for="accident-area" class="col-form-label">Location Name:</label>
+                    <input type="text" class="form-control form-control-sm" id="accident-area" value="{{accident.acc_area_name}}"
+                        maxlength="25" name="acc_area_name" required>
+            </div>
+            <div class="form-group">
+                <label for="accident-address" class="sr-only">Address:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" id="accident-address" name="acc_location"
+                        value="{{accident.acc_location}}" placeholder="Latitude, Longitude" required>
+                    <div class="col-auto">
+                      <button type="button" class="btn btn-default mb-2" id="accident-address-button"
+                        onclick="pickCoordinates();">Pick HERE</button>
+                    </div>
+                  </div>
+            </div>
+            <div class="form-group row accident-selector">
+                <label for="accident-involved" class="col-sm-4 col-form-label">Accident Involved</label>
+                <div class="col-sm-8">
+                    <select class="form-control selectpicker" id="accident-involved" name="acc_involved" 
+                        multiple="multiple" data-live-search="true" value="Bodas" required>
+                        <option>Bodas</option>
+                        <option>Taxis</option>
+                        <option>Pedestrians</option>
+                        <option>Private Car</option> 
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label font-weight-normal">Number of :</label> 
+            </div>
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                      <label for="un-injured" class="font-weight-light">Un-injured</label>
+                      <input type="text" class="form-control form-control-sm" id="un-injured" name="acc_no_uninjured" 
+                        value="{{accident.acc_no_uninjured}}" placeholder="0" maxlength="3" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <label for="minor-injuries" class="font-weight-light">Minor Injuries</label>
+                      <input type="text" class="form-control form-control-sm" id="minor-injuries" name="acc_no_minor" 
+                        value="{{accident.acc_no_minor}}" placeholder="0" maxlength="3" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <label for="major-injuries" class="font-weight-light">Major Injuries</label>
+                      <input type="text" class="form-control form-control-sm" id="major-injuries" name="acc_no_major" 
+                        value="{{accident.acc_no_major}}" placeholder="0" maxlength="3" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="no_of_dead" class="font-weight-light">Dead</label>
+                        <input type="text" class="form-control form-control-sm" id="no_of_dead" name="acc_no_dead" 
+                            value="{{accident.acc_no_dead}}" placeholder="0" maxlength="3" required>
+                    </div>
+                  </div>
+                  <div class="custom-control  custom-checkbox">
+                        {%if accident.acc_is_victim == True %}
+                        <input type="checkbox" class="custom-control-input" id="accident-by-victim" name="acc_is_victim" checked>
+                        {%endif%}
+                        {%if accident.acc_is_victim == False %}
+                        <input type="checkbox" class="custom-control-input" id="accident-by-victim" name="acc_is_victim">
+                        {%endif%}
+                        <label class="custom-control-label" for="accident-by-victim">Yes, I am a Victim of this Accident</label>
+                  </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update Accident</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div> 
+
+<script>
+    bootstrapValidate(['#accident-title','#accident-desc, #accident-area'], 'min:10:Enter at least 10 characters!')
+    bootstrapValidate('#accident-photos','required:You must atleast select one accident photo')
+    bootstrapValidate(['#no_of_dead','#un-injured','#minor-injuries','#major-injuries'],
+                        'numeric:Only Numbers accepted')
+    $('select').selectpicker();
+
+    $('#accident-address-button').click(function(){
+        $('#accident-address').attr('disabled','disabled')
+        $('#accident-address-button').value = "Switch"
+    });
+
+    $('#accident-address-button').dblclick(function(){
+        $('#accident-address').removeAttr('disabled')
+    })
+</script> 
+
+{% endif%}
