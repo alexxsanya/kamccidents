@@ -18,8 +18,10 @@
                     <form action="#" class="form-inline my-2 my-lg-0">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="route-button"
                             data-toggle="modal" data-target="#routeModal">Check Hospitals</button> &nbsp;
-                        <button class="btn btn-outline-primary my-2 my-sm-0" type="button">EDIT</button> &nbsp;
-                        <button class="btn btn-outline-danger my-2 my-sm-0" type="button">DELETE</button> &nbsp;
+                        <button class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#updateModal" 
+                            type="button">EDIT</button> &nbsp;
+                        <button class="btn btn-outline-danger my-2 my-sm-0" data-toggle="modal" data-target="#deleteModal" 
+                            type="button">DELETE</button> &nbsp;
                     </form>
                 </nav>
             </div>
@@ -90,6 +92,8 @@
 
     </div> 
     {% include 'includes/__route_modal.html' %}
+    {% include 'includes/__edit_accident_modal.html' %}
+    {% include 'includes/__delete_accident_modal.html' %}
     {% endblock %}
 
 </body>
