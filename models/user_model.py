@@ -1,7 +1,7 @@
 from . import db, bcrypt
 import datetime
 from marshmallow import fields, Schema
-
+from .accident_model import AccidentsModelSchema
 class UsersModel(db.Model):
   """
   Users Model
@@ -26,7 +26,7 @@ class UsersModel(db.Model):
     self.phone = data.get('phone')
     self.created_at = datetime.datetime.utcnow()
     self.modified_at = datetime.datetime.utcnow()
-
+    accidents = db.relationship('accident_model', backref='users', lazy=True)
   def save(self):
     db.session.add(self)
     db.session.commit()

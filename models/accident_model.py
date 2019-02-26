@@ -20,6 +20,7 @@ class AccidentsModel(db.Model):
   acc_created_by = db.Column(db.Integer,db.ForeignKey('users.id'))
   created_at = db.Column(db.DateTime)
   modified_at = db.Column(db.DateTime)
+  accidents = db.relationship('AccidentStatModel', backref='accidents', lazy=True)
 
   def __init__(self, data):
     self.acc_title = data.get('acc_title') 
@@ -46,7 +47,7 @@ class AccidentsModel(db.Model):
 
   def delete(self):
     db.session.delete(self)
-    de.session.commit()
+    db.session.commit()
   
   @staticmethod
   def get_all_accidents(user_id):
