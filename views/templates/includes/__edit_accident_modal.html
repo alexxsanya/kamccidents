@@ -61,10 +61,10 @@
                 <div class="col-sm-8">
                     <select class="form-control selectpicker" id="accident-involved" name="acc_involved" 
                         multiple="multiple" data-live-search="true" value="Bodas" required>
-                        <option>Bodas</option>
-                        <option>Taxis</option>
-                        <option>Pedestrians</option>
-                        <option>Private Car</option> 
+                        <option {%if 'Boda' in accident.acc_involved %} selected {%endif%}>Bodas</option>
+                        <option {%if 'Taxi' in accident.acc_involved %} selected {%endif%}>Taxis</option>
+                        <option {%if 'Pedestrians' in accident.acc_involved %} selected {%endif%}>Pedestrians</option>
+                        <option {%if 'Private' in accident.acc_involved %} selected {%endif%}>Private Car</option> 
                     </select>
                 </div>
             </div>
