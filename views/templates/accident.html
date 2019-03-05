@@ -11,10 +11,16 @@
     <div class="container padding">
         <div class="row">
             <div class="col-12 col-md-12">
-                <nav class="navbar navbar-light bg-light">
-                    <span class="navbar-text">
-                    {{accident['acc_title']|title }}
-                    </span>
+                <nav class="navbar navbar-light bg-light">                        
+                    <div>
+                        <span class="badge badge-secondary">
+                                {{accident.acc_area_name|title }}
+                        </span> 
+                         -
+                        <span class="navbar-text">
+                            {{accident['acc_title']|title }}
+                        </span>
+                    </div>
                     <form action="#" class="form-inline my-2 my-lg-0">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="route-button"
                             data-toggle="modal" data-target="#routeModal">Check Hospitals</button> &nbsp;
@@ -65,6 +71,7 @@
                 
                 <div class="jumbotron">
                         <h1 class="display-4">{{accident.acc_title}}</h1>
+                        <p>On {{accident.acc_time}}</p>
                         <hr class="my-4">
                         <p class="lead">{{ accident.acc_desc }} </p>
                         <hr class="my-4">
