@@ -1,0 +1,1 @@
+#this folder contains photos uploaded when reporting an accident
