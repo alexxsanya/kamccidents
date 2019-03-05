@@ -113,3 +113,18 @@ function loadHeatMap(){
 
   heatmap.setMap(map);
 }
+
+
+function loadHospitalMap(){
+
+  var kampalaCity = new google.maps.LatLng(0.316644, 32.589536);
+  alert(547465)
+  map = new google.maps.Map(document.getElementById('mapCanvas'), {
+    center: kampalaCity,
+    zoom: 15,
+    mapTypeId:'roadmap'
+  });
+
+  var marker = new google.maps.Marker({position: kampalaCity, map: map});
+
+}
