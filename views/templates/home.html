@@ -5,12 +5,19 @@
     {% block body %} 
     {{super()}}
     <div class="container padding">
-        <!-- button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@report">
-            Report an Accident
-        </button>  
-        <button type="button" class="btn btn-danger float-right">
-            <span class="badge badge-light">20</span> Reported Today
-        </button -->
+        <ul class="navbar-nav mr-auto">  
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 
+              aria-haspopup="true" aria-expanded="false">
+              Show On Map
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#" onclick="loadHospitalMap();">Nearby Hospitals</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" onclick="loadHeatMap();">Accident HeatMap</a>
+            </div>
+          </li>
+        </ul>
         <div id="mapCanvas">
           <loading>Initializing...</loading>
         </div>
