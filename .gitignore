@@ -105,4 +105,3 @@ venv.bak/
 .vscode
 
 .prodenv
-views/static/uploaded_files/
