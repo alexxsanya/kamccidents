@@ -8,7 +8,11 @@ function generateRoute() {
       zoom: 13
     });
   
-    new AutocompleteDirectionsHandler(map);
+    //new AutocompleteDirectionsHandler(map).route();
+    
+    origin = new google.maps.LatLng(0.291080391, 32.58045209)
+    destination = new google.maps.LatLng(0.336644, 32.589536)
+    new AutocompleteDirectionsHandler(map).generate(origin,destination);
   }
   
   /**
@@ -16,89 +20,58 @@ function generateRoute() {
    */
   function AutocompleteDirectionsHandler(map) {
     this.map = map;
-    this.originPlaceId = null;
-    this.destinationPlaceId = null;
     this.travelMode = 'WALKING';
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer;
     this.directionsDisplay.setMap(map);
   
-    var originInput = document.getElementById('origin-input');
-    var destinationInput = document.getElementById('destination-input');
     var modeSelector = document.getElementById('mode-selector');
-    
-    var originAutocomplete = 
-        new google.maps.places.Autocomplete(originInput);
-    // Specify just the place data fields that you need.
-    originAutocomplete.setFields(['place_id']);
-  
-    var destinationAutocomplete =
-        new google.maps.places.Autocomplete(destinationInput);
-    // Specify just the place data fields that you need.
-    destinationAutocomplete.setFields(['place_id']);
-  
-    this.setupClickListener('changemode-walking', 'WALKING');
-    this.setupClickListener('changemode-transit', 'TRANSIT');
-    this.setupClickListener('changemode-driving', 'DRIVING');
-  
-    this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
-    this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
-  
-    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
-    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(
-        destinationInput);
+
     this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(modeSelector);
   }
   
-  // Sets a listener on a radio button to change the filter type on Places
-  // Autocomplete.
-  AutocompleteDirectionsHandler.prototype.setupClickListener = function(
-      id, mode) {
-    var radioButton = document.getElementById(id);
-    var me = this;
-  
-    radioButton.addEventListener('click', function() {
-      me.travelMode = mode;
-      me.route();
-    });
-  };
-  
-  AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(
-      autocomplete, mode) {
-    var me = this;
-    autocomplete.bindTo('bounds', this.map);
-  
-    autocomplete.addListener('place_changed', function() {
-      var place = autocomplete.getPlace();
-  
-      if (!place.place_id) {
-        window.alert('Please select an option from the dropdown list.');
-        return;
-      }
-      if (mode === 'ORIG') {
-        me.originPlaceId = place.place_id;
-      } else {
-        me.destinationPlaceId = place.place_id;
-      }
-      me.route();
-    });
-  };
-  
   AutocompleteDirectionsHandler.prototype.route = function() {
-    if (!this.originPlaceId || !this.destinationPlaceId) {
-      return;
-    }
     var me = this;
-  
+    
+    var request = {
+      origin:new google.maps.LatLng(0.291080391, 32.58045209),
+      destination:new google.maps.LatLng(0.336644, 32.589536),
+      travelMode: this.travelMode
+      /*travelMode: google.maps.TravelMode.DRIVING,*/
+      
+    };
+
     this.directionsService.route(
-        {
-          origin: {'placeId': this.originPlaceId},
-          destination: {'placeId': this.destinationPlaceId},
-          travelMode: this.travelMode
-        },
+        request,
         function(response, status) {
           if (status === 'OK') {
             me.directionsDisplay.setDirections(response);
+            me.map.zoom = 13;
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+  };
+
+  AutocompleteDirectionsHandler.prototype.generate = function(
+      origin,
+      destination
+    ) {
+    var me = this;
+    var request = {
+      origin:origin,
+      destination:destination,
+      travelMode: this.travelMode
+      /*travelMode: google.maps.TravelMode.DRIVING,*/
+      
+    };
+
+    this.directionsService.route(
+        request,
+        function(response, status) {
+          if (status === 'OK') {
+            me.directionsDisplay.setDirections(response);
+            me.map.zoom = 13;
           } else {
             window.alert('Directions request failed due to ' + status);
           }
