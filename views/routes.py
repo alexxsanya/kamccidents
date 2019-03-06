@@ -68,7 +68,7 @@ def logout():
 def create_user():
     req_data = request.form.to_dict(flat=True)
 
-    req_data['firstname'],req_data['lastname'] =req_data.get('name').split(",")  
+    req_data['firstname'],req_data['lastname'] =req_data.get('name').split(" ")  
     
     data, error = UserSchema().load(req_data)
 
