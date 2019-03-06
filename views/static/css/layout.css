@@ -126,10 +126,28 @@ loading{
     animation: blink 2s linear infinite;
 }
 
+
 @keyframes blink{
 0%{opacity: 0;}
 25%{opacity: 0.25;}
 50%{opacity: .5;}
 75%{opacity: 0.75;}
 100%{opacity: 1;}
+}
+
+beacon{
+    position:absolute;
+    top:45%;
+    left:49%;
+    border-radius:45%;
+    width:10px;
+    height:10px;
+    z-index: 1000;
+    font-size:1.5rem;
+    animation: colorchange 1s linear infinite;
+}
+
+@keyframes colorchange{
+    0%{display:none;background:red; }
+    100%{display:block;background:green;}
 }
