@@ -13,6 +13,8 @@ function getPosition(position) {
 }
 
 function loadHeatMap(){
+  document.querySelector('beacon').setAttribute('style',"display:inline");
+  document.getElementById('hospital-map-label').setAttribute('hidden','hidden');
   /* Data points defined as an array of LatLng objects */
 /* Data points defined as a mixture of WeightedLocation and LatLng objects */
   var heatMapData = [
@@ -130,7 +132,8 @@ function loadHeatMap(){
 
 
 function loadHospitalMap(){
-  console.log(lat+" "+lng);
+  document.querySelector('beacon').setAttribute('style',"display:none");
+  document.getElementById('hospital-map-label').removeAttribute('hidden');
   var myCurrentPosition = new google.maps.LatLng(lat, lng);
   map = new google.maps.Map(document.getElementById('mapCanvas'), {
     center: myCurrentPosition,
