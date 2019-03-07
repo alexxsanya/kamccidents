@@ -137,17 +137,76 @@ loading{
 
 beacon{
     position:absolute;
-    top:45%;
-    left:49%;
-    border-radius:45%;
+    top:47%;
+    left:47%;
+    border-radius:50%;
     width:10px;
     height:10px;
+    /*background-color: rgba(255, 255, 255, 1.00);*/
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     z-index: 1000;
-    font-size:1.5rem;
-    animation: colorchange 1s linear infinite;
+    /*animation: color 1.5s infinite ease-in-out;*/
+    /*box-shadow: 0px 0px 2px 2px #fff;*/
 }
 
-@keyframes colorchange{
-    0%{display:none;background:red; }
-    100%{display:block;background:green;}
+beacon:before, beacon:after{
+    content:'';
+    position:absolute;
+    border-radius:50%;
+    width:60px;
+    height:60px;     
+    background-color:rgba(223, 112, 21, 0.26);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+
+beacon:before{
+    animation: wave-anim 3s infinite ease-out;
+}
+
+beacon:after{
+    opacity: 0;
+    animation: wave-anim 3s 1.5s infinite ease-out;
+}
+
+@keyframes wave-anim{
+    0%{
+        transform: scale(0);
+        opacity: 1;
+        transform-origin:center;
+    }
+    100%{
+        transform: scale(7);
+        opacity: 0;
+        transform-origin:center;
+    }
+}
+
+@keyframes color{
+    0%{
+        background-color: rgba(248, 238, 238, 1.00);
+        box-shadow: 0px 0px 2px 2px #fff;
+    }
+    20%{
+        background-color: rgba(255, 114, 117, 1.00);
+        box-shadow: 0px 0px 3px 3px #fff;
+    }
+    40%{
+        background-color: rgba(252, 171, 68, 1.00);
+        box-shadow: 0px 0px 4px 4px #fff;
+    }
+    60%{
+        background-color: rgb(142, 236, 33);
+        box-shadow: 0px 0px 5px 5px #fff;
+    }
+    80%{
+        background-color: rgb(8, 146, 49);
+        box-shadow: 0px 0px 6px 6px #fff;
+    }
+    100%{
+        background-color: rgb(243, 239, 17);
+        box-shadow: 0px 0px 7px 7px #fff;
+    }
 }

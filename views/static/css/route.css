@@ -56,3 +56,7 @@
       padding-top: 0rem !important;
     }
   }
+
+  #heat-map-label, #accident-map-label{
+    display: none;
+  }
