@@ -168,7 +168,13 @@ def get_user_accident_report(user_id):
     accident =  AccidentsModel.get_all_accidents(user_id) 
     data = AccidentsModelSchema().dump(accident, many=True).data 
     return jsonify(data)
-
+    
+@app.route("/all-accidents")
+def get_all_accidents():
+    all_accident =  AccidentsModel.get_accidents_from_db() 
+    data = AccidentsModelSchema().dump(all_accident, many=True).data 
+    return jsonify(data)
+    
 @app.route("/accident/<int:accident_id>")
 @auth.login_required
 def get_accident(accident_id): 
