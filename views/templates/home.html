@@ -6,7 +6,11 @@
     {{super()}}
     <div class="container padding">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navActionbar" 
+            aria-controls="navActionbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navActionbar">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
               <li class="nav-item active">
                   <button class="btn btn-outline-warning my-2 my-sm-0" type="button" onclick="loadHeatMap();">Accident Heatmap</button>
