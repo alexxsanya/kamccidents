@@ -11,7 +11,6 @@
             <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Dashboard</a>
             <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">My Reports</a>  
             <a class="nav-link" data-toggle="modal" data-target="#exampleModal"  href="#">Report Accident</a>
-            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
           </div>
         </div>
         <div class="col-9">
@@ -19,28 +18,28 @@
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                 <nav class="navbar navbar-light bg-light">
                     <span class="navbar-text">
-                      My Dashboard
+                      Dashboard 
                     </span>
                 </nav>
                 <br>
                 <div class="card-deck">
                     <div class="card text-white bg-success mb-3" style="max-width: 16rem;">
                         <div class="card-body text-center">
-                          <h1 class="display-1">14</h1>
+                          <h1 class="display-1">{{minor}}</h1>
                           <p class="card-text">Minor Accidents.</p>
                         </div>
                         <div class="card-footer"></div>
                     </div>
                     <div class="card text-white bg-warning mb-3" style="max-width: 16rem;">
                         <div class="card-body text-center"> 
-                          <h1 class="display-1 ">54</h1>
+                          <h1 class="display-1 ">{{major}}</h1>
                           <p class="card-text">Serious Accidents</p>
                         </div>
                         <div class="card-footer"></div>
                     </div>
                     <div class="card text-white bg-danger mb-3" style="max-width: 16rem;">
                         <div class="card-body text-center">
-                          <h1 class="display-1">04</h1>
+                          <h1 class="display-1">{{fatal}}</h1>
                           <p class="card-text">Fatal Accidents</p>
                         </div>
                         <div class="card-footer"></div>
@@ -49,23 +48,20 @@
                 <div class="card-deck">
                   <div class="card text-white bg-success mb-3" style="max-width: 16rem;">
                     <ul class="list-group list-group-flush text-muted">
-                      <li class="list-group-item">12 Pedestrians</li>
-                      <li class="list-group-item">5 Boda Boda</li>
-                      <li class="list-group-item">0 Vehicles</li>
+                      <li class="list-group-item">Taxi Involved Accidents</li>
+                      <li class="list-group-item">{{taxis_involved}}</li>
                     </ul>
                   </div>
                   <div class="card text-white bg-warning mb-3" style="max-width: 16rem;">
                     <ul class="list-group list-group-flush text-muted">
-                      <li class="list-group-item">10 Pedestrians</li>
-                      <li class="list-group-item">15 Boda Boda</li>
-                      <li class="list-group-item">1 Vehicles</li>
+                      <li class="list-group-item">Boda Boda Involved Accident</li>
+                      <li class="list-group-item">{{boda_involved}}</li>
                     </ul>
                   </div>
                   <div class="card text-white bg-danger mb-3" style="max-width: 16rem;">
                     <ul class="list-group list-group-flush text-muted">
-                      <li class="list-group-item">10 Pedestrians</li>
-                      <li class="list-group-item">5 Boda Boda</li>
-                      <li class="list-group-item">10 Vehicles</li>
+                      <li class="list-group-item">Total Deaths</li>
+                      <li class="list-group-item">{{dead_count}}</li>
                     </ul>
                   </div>
               </div>              
@@ -83,13 +79,6 @@
                   </table>   
                 </div>
             </div> 
-            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                <nav class="navbar navbar-light bg-light">
-                    <span class="navbar-text">
-                      My Profile Settings
-                    </span>
-                </nav>
-            </div>
           </div>
         </div>
       </div>

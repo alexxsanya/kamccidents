@@ -109,7 +109,11 @@ class AccidentStatModel(db.Model):
   @staticmethod
   def get_accident_stat(id):
     return AccidentStatModel.query.filter_by(acc_id=id).first()
-    
+
+  @staticmethod
+  def get_all_stat():
+    return AccidentStatModel.query.all()
+
   def __repr__(self):
     return '<id {}>'.format(self.id)
 

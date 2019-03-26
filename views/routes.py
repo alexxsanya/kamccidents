@@ -6,6 +6,7 @@ from flask import (Flask,
                     send_from_directory)
 import json
 import os
+from datetime import datetime
 from . import init_app
 from controllers.auth import Auth
 from controllers.util import Util
@@ -33,8 +34,28 @@ def feeds():
 @app.route("/dashboard")
 @auth.login_required
 def dashboard():
+    stat =  AccidentStatModel.get_all_stat() 
+    stats = AccidentStatModelSchema().dump(stat, many=True).data 
 
-    return render_template("dashboard.html")
+    accident =  AccidentsModel.get_accidents_from_db() 
+    acc_data = AccidentsModelSchema().dump(accident, many=True).data 
+    
+    minor = len([a for a in stats if ((a['acc_no_dead'] <1 or\
+                     a['acc_no_major'] < 4) and\
+                         a['acc_no_minor']>0)])
+    major = len([a for a in stats if (a['acc_no_dead'] < 5 and\
+                    a['acc_no_major'] >5)])
+    fatal = len([a for a in stats if (a['acc_no_dead'] > 5)])
+
+    boda_involved = len([a for a in acc_data if 'Boda' in a['acc_involved']])
+
+    taxis_involved = len([a for a in acc_data if 'Taxi' in a['acc_involved']])
+
+    dead_count = 0
+    for acc in stats:
+        dead_count += acc['acc_no_dead']
+    
+    return render_template("dashboard.html", **locals())
 
 @app.route("/login",methods=['POST'])
 def login_user():
@@ -185,7 +206,7 @@ def get_photo(img_uri):
 
 @app.route('/reports/charts')
 def generate_chart_report():
-    acc_involved = ['boda','taxi','Pedestrians','lorry','buses']
+    acc_involved = ['Bodas','Taxis','Pedestrians','Lorry','Buses']
     accident =  AccidentsModel.get_accidents_from_db() 
     data = AccidentsModelSchema().dump(accident, many=True).data 
     list = []
@@ -193,6 +214,28 @@ def generate_chart_report():
         item = [a for a in data if x in str(a)]
         new_item = [x.title(),len(item)]
         list.append(new_item)
+
+    per_area = []
+    kampala_areas = []
+    for ac in data:
+        kampala_areas.append(ac['acc_area_name'])
+
+    for area in kampala_areas:
+        count = len([a for a in data if area == a['acc_area_name']])
+        per_area.append([area, count])
+
+    per_hour = []
+    know_hours = []
+    for ac in data:
+        acc_time = datetime.fromisoformat(ac['acc_time'])
+        know_hours.append(acc_time.strftime('%I%p'))
+
+    for hour in know_hours:
+        count = len([a for a in data\
+            if hour == datetime.fromisoformat(a['acc_time']).strftime('%I%p')]\
+            )
+        per_hour.append([hour,count])
+
     return render_template('chart_report.html',**locals())
 
 def custom_response(res, status_code):

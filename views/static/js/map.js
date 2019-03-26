@@ -163,48 +163,17 @@ function loadHospitalMap(){
       });
   });
 
-  function calculateRoute(to) {
-    var myOptions = {
-      zoom: 13,
-      center: myCurrentPosition,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    }; 
-    var mapObject = new google.maps.Map(document.getElementById("mapCanvas"), myOptions);
-
-    var directionsService = new google.maps.DirectionsService();
-    var directionsRequest = {
-      origin: myCurrentPosition,
-      destination: to,
-      travelMode: google.maps.DirectionsTravelMode.DRIVING,
-      unitSystem: google.maps.UnitSystem.METRIC
-    };
-    directionsService.route(
-      directionsRequest,
-      function(response, status)
-      {
-        if (status == google.maps.DirectionsStatus.OK)
-        {
-          new google.maps.DirectionsRenderer({
-            map: mapObject,
-            directions: response
-          });
-        }
-        else
-          $("#error").append("Unable to retrieve your route<br />");
-      }
-    );
-  }
-
   function addClicker(marker, content) {
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'click', function() {
       if (infowindow) {infowindow.close();}
-      destination = new google.maps.LatLng(content.latitude, content.longitude); 
+      destination = content.latitude+","+content.longitude; 
       var info = "<div style = 'width:250px;min-height:40px'>"+
                     "<p>"+content.Name+"</p>"+ 
                     "<p> Hour: "+content.Working_hours+"</p>"+
-                    "<p> Tel: "+content.Phone_Contact+"</p>"+ 
-                    "<div onclick='"+calculateRoute(destination)+"'>Get Direction</div>"+
+                    "<p> Tel: "+content.Phone_Contact+"</p>"+                         
+                    "<button onclick='get_direction()' data='"+
+                    destination+"'>Get Direction</button>"+
                  "</div>"; 
 
       infowindow.setContent(info); 
@@ -212,4 +181,54 @@ function loadHospitalMap(){
       infowindow.open(map, marker);
     });
   }
+
+}
+function calculateRoute(to) {
+  if(lat==0 & lng==0){
+    lat= 0.3499986
+    lng = 32.56716
+    navigator.geolocation.watchPosition(getPosition);
+  } 
+
+  myCurrentPosition = new google.maps.LatLng(lat, lng);
+
+  var myOptions = {
+    zoom: 13,
+    center: myCurrentPosition,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }; 
+  var mapObject = new google.maps.Map(document.getElementById("mapCanvas"), myOptions);
+
+  var directionsService = new google.maps.DirectionsService();
+  var directionsRequest = {
+    origin: myCurrentPosition,
+    destination: to,
+    travelMode: google.maps.DirectionsTravelMode.DRIVING,
+    unitSystem: google.maps.UnitSystem.METRIC
+  };
+  directionsService.route(
+    directionsRequest,
+    function(response, status)
+    {
+      if (status == google.maps.DirectionsStatus.OK)
+      {
+        new google.maps.DirectionsRenderer({
+          map: mapObject,
+          directions: response
+        });
+      }
+      else
+        $("#error").append("Unable to retrieve your route<br />");
+    }
+  );
+}
+
+function get_direction(e){
+  e = e || window.event;
+  var target = e.target || e.srcElement;
+  var geocord =  target.getAttribute('data')
+  geocord = geocord.split(',') 
+  console.log(geocord)
+  var latLng = new google.maps.LatLng(parseFloat(geocord[0]),parseFloat(geocord[1]));   
+  calculateRoute(latLng)
 }

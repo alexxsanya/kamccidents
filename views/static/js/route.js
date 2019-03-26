@@ -1,100 +1,110 @@
-function generateRoute() {
+var lng = 0;
+var lat = 0;
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(getPosition);
+} else {
+  alert("Geolocation is not supported by this browser.");
+}
 
-    var kampalaCity = new google.maps.LatLng(0.316644, 32.589536);
-    
-    var map = new google.maps.Map(document.getElementById('route-map'), {
-      mapTypeControl: false,
-      center: kampalaCity,
-      zoom: 13
+function getPosition(position) {
+  lat = position.coords.latitude;
+  lng = position.coords.longitude; 
+}
+function loadHospitalMap(){
+    var myCurrentPosition = new google.maps.LatLng(lat, lng);
+    map = new google.maps.Map(document.getElementById('route-map'), {
+      center: myCurrentPosition,
+      zoom: 18,
+      mapTypeId:'roadmap',
     });
   
-    //new AutocompleteDirectionsHandler(map).route();
-    
-    origin = new google.maps.LatLng(0.291080391, 32.58045209)
-    destination = new google.maps.LatLng(0.336644, 32.589536)
-    new AutocompleteDirectionsHandler(map).generate(origin,destination);
-  }
+    var marker = new google.maps.Marker({
+      position: myCurrentPosition, 
+      map: map,
+      icon:'/static/uploaded_files/icon-mee.png'
+    });
   
-  /**
-   * @constructor
-   */
-  function AutocompleteDirectionsHandler(map) {
-    this.map = map;
-    this.travelMode = 'WALKING';
-    this.directionsService = new google.maps.DirectionsService;
-    this.directionsDisplay = new google.maps.DirectionsRenderer;
-    this.directionsDisplay.setMap(map);
-  
-    var modeSelector = document.getElementById('mode-selector');
-
-    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(modeSelector);
-  }
-  
-  AutocompleteDirectionsHandler.prototype.route = function() {
-    var me = this;
-    
-    var request = {
-      origin:new google.maps.LatLng(0.291080391, 32.58045209),
-      destination:new google.maps.LatLng(0.336644, 32.589536),
-      travelMode: this.travelMode
-      /*travelMode: google.maps.TravelMode.DRIVING,*/
+     $.getJSON('/static/uploaded_files/hospitals.json', function(json1) {
+        $.each(json1, function(key, data) {
       
-    };
-
-    this.directionsService.route(
-        request,
-        function(response, status) {
-          if (status === 'OK') {
-            me.directionsDisplay.setDirections(response);
-            me.map.zoom = 13;
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
+            var latLng = new google.maps.LatLng(data.latitude, data.longitude); 
+            // Creating a marker and putting it on the map
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                title: data.Name,	
+                icon: '/static/uploaded_files/icon-hospital.png'
+            });
+  
+          var clicker = addClicker(marker, data);
         });
-  };
+    });
+  
+    function addClicker(marker, content) {
+      var infowindow = new google.maps.InfoWindow();
+      google.maps.event.addListener(marker, 'click', function() {
+        if (infowindow) {infowindow.close();}
+        destination = content.latitude+","+content.longitude; 
+        var info = "<div style = 'width:250px;min-height:40px'>"+
+                      "<p>"+content.Name+"</p>"+ 
+                      "<p> Hour: "+content.Working_hours+"</p>"+
+                      "<p> Tel: "+content.Phone_Contact+"</p>"+                         
+                      "<button onclick='load_direction()' data='"+
+                      destination+"'>Get Direction</button>"+
+                   "</div>"; 
+  
+        infowindow.setContent(info); 
+  
+        infowindow.open(map, marker);
+      });
+    }
+  
+  }  
 
-  AutocompleteDirectionsHandler.prototype.generate = function(
-      origin,
-      destination
-    ) {
-    var me = this;
-    var request = {
-      origin:origin,
-      destination:destination,
-      travelMode: this.travelMode
-      /*travelMode: google.maps.TravelMode.DRIVING,*/
-      
+  function generateRoute(togeocord) {
+    if(lat==0 & lng==0){
+      lat= 0.3499986
+      lng = 32.56716
+      navigator.geolocation.watchPosition(getPosition);
+    } 
+  
+    myCurrentPosition = new google.maps.LatLng(lat, lng);
+    to = togeocord.split(',') 
+    toDestination = new google.maps.LatLng(parseFloat(to[0]),parseFloat(to[1]));   
+    var myOptions = {
+      zoom: 13,
+      center: myCurrentPosition,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }; 
+    var mapObject = new google.maps.Map(document.getElementById("route-map"), myOptions);
+  
+    var directionsService = new google.maps.DirectionsService();
+    var directionsRequest = {
+      origin: myCurrentPosition,
+      destination: toDestination,
+      travelMode: google.maps.DirectionsTravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.METRIC
     };
-
-    this.directionsService.route(
-        request,
-        function(response, status) {
-          if (status === 'OK') {
-            me.directionsDisplay.setDirections(response);
-            me.map.zoom = 13;
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        });
-  };
-
-  function geocodeLatLng() {
-    
-    var geocoder = new google.maps.Geocoder;
-    //var input = document.getElementById('latlng').value;
-    var input = '0.314069, 32.587187'
-    var latlngStr = input.split(',', 2);
-    var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
-    geocoder.geocode({'location': latlng}, function(results, status) {
-      if (status === 'OK') {
-        if (results[0]) {
-          console.log(results[0].formatted_address)
-          return results[0].formatted_address
-        } else {
-          window.alert('No results found');
+    directionsService.route(
+      directionsRequest,
+      function(response, status)
+      {
+        if (status == google.maps.DirectionsStatus.OK)
+        {
+          new google.maps.DirectionsRenderer({
+            map: mapObject,
+            directions: response
+          });
         }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
+        else
+          $("#error").append("Unable to retrieve your route<br />");
       }
-    });
+    );
+  }
+  
+  function load_direction(e){
+    e = e || window.event;
+    var target = e.target || e.srcElement;
+    var geocord =  target.getAttribute('data')
+    generateRoute(geocord)
   }

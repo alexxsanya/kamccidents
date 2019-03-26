@@ -11,8 +11,6 @@
                 role="tab" aria-controls="v-pills-home" aria-selected="true">By Road Users</a>
               <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" 
                 role="tab" aria-controls="v-pills-profile" aria-selected="false">By Area</a>   
-              <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" 
-                role="tab" aria-controls="v-pills-settings" aria-selected="false">By Road Users</a>              
               <a class="nav-link" id="v-pills-byhour-tab" data-toggle="pill" href="#v-pills-by-hour" 
                 role="tab" aria-controls="v-pills-by-hour" aria-selected="false">Accident By Hour</a>
             </div>
@@ -46,27 +44,33 @@
                       </span>             
                   </nav>
                   <br>
-                  <div class="row"> 
-                      <div class="col-11">
-                        <div id="bar-chart">
+                  <div class="row">
+                    <div class="col-6">
+                      <div id="piechart-area">
                           <loading>Loading...</loading>
-                        </div>
                       </div>
-                  </div>
+                    </div>
+                    <div class="col-6">
+                      <div id="barchart-area">
+                        <loading>Loading...</loading>
+                      </div>
+                    </div>
+                </div>   
               </div> 
-              <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                  <nav class="navbar navbar-light bg-light">
-                      <span class="navbar-text">
-                          No. of Accident Victims per Area in Kampala
-                      </span>
-                  </nav>
-              </div>
               <div class="tab-pane fade" id="v-pills-by-hour" role="tabpanel" aria-labelledby="v-pills-byhour-tab">
                   <nav class="navbar navbar-light bg-light">
                       <span class="navbar-text">
                           No. of Accident Per Hour
                       </span>
-                  </nav>
+                  </nav>                  
+                  <br>
+                  <div class="row">
+                    <div class="col-6">
+                      <div id="barchart-hour">
+                        <loading>Loading...</loading>
+                      </div>
+                    </div>
+                </div> 
               </div>
             </div>
           </div>
@@ -85,19 +89,14 @@
 
         // Draw the pie chart and bar chart when Charts is loaded.
         google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawPerArea);
+        google.charts.setOnLoadCallback(drawPerHour);
 
         function drawChart() {
 
           var data = new google.visualization.DataTable();
           data.addColumn('string', 'Topping');
           data.addColumn('number', 'Number');
-          /*data.addRows([
-            ['motorcyclist ', 3],
-            ['Boda Boda', 1],
-            ['Pedestrians', 1],
-            ['Taxis', 1],
-            ['Buses', 2]
-          ]); */
           stat = {{list|tojson}}
           data.addRows(stat)
           console.log(stat) 
@@ -115,6 +114,46 @@
           barchart.draw(data, barchart_options);
 
         }  
-      }
+
+        function drawPerArea() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Area');
+          data.addColumn('number', 'Number of Accident');
+          stat = {{per_area|tojson}}
+          data.addRows(stat)
+          console.log(stat) 
+          var piechart_options = {title:'Pie Chart: Accidents Per Area in Kampala',
+                        width:500,
+                        height:350};
+          var piechart = new google.visualization.PieChart(document.getElementById('piechart-area'));
+          piechart.draw(data, piechart_options);
+
+          var barchart_options = {title:'Barchart: Accidents Per Area In Kampala ',
+                        width:500,
+                        height:350,
+                        legend: 'none'};
+          var barchart = new google.visualization.BarChart(document.getElementById('barchart-area'));
+          barchart.draw(data, barchart_options);
+
+          }
+
+          function drawPerHour() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Hour');
+          data.addColumn('number', 'Number of Accident');
+          stat = {{per_hour|tojson}}
+          data.addRows(stat)
+          var barchart_options = {title:'Barchart: Accidents Per Hour In Kampala',
+                        width:600,
+                        height:400,
+                        legend: 'true',        
+                        bar: {groupWidth: "90%"},
+                        colors:['#c6dbfd'],
+                        hAxis: { ticks: [5,10,15,25] },
+                      };
+          var barchart = new google.visualization.BarChart(document.getElementById('barchart-hour'));
+          barchart.draw(data, barchart_options);
+          }
+    }
   </script>
 {% endblock %}

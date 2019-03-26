@@ -110,11 +110,13 @@
   <script src="{{url_for('.static', filename='js/route.js')}}"></script>
   <script>
     window.onload = function(){
-        generateRoute()
         $('#route-button').click(function(){
             console.log(23729646287)
             //generateRoute()
         });
+        $('#routeModal').on('shown.bs.modal', function () {
+            loadHospitalMap()
+        })
     }   
   </script>
 {% endblock %}
