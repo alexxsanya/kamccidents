@@ -168,7 +168,7 @@ def get_user_accident_report(user_id):
     accident =  AccidentsModel.get_all_accidents(user_id) 
     data = AccidentsModelSchema().dump(accident, many=True).data 
     return jsonify(data)
-    
+
 @app.route("/all-accidents")
 def get_all_accidents():
     all_accident =  AccidentsModel.get_accidents_from_db() 
@@ -234,14 +234,14 @@ def generate_chart_report():
     know_hours = []
     for ac in data:
         acc_time = datetime.fromisoformat(ac['acc_time'])
-        know_hours.append(acc_time.strftime('%I%p'))
+        know_hours.append(acc_time.strftime('%H'))
 
-    for hour in know_hours:
+    for hour in set(know_hours):
         count = len([a for a in data\
-            if hour == datetime.fromisoformat(a['acc_time']).strftime('%I%p')]\
+            if hour == datetime.fromisoformat(a['acc_time']).strftime('%H')]\
             )
         per_hour.append([hour,count])
-
+    per_hour.sort()
     return render_template('chart_report.html',**locals())
 
 def custom_response(res, status_code):

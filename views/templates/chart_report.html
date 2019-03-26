@@ -147,9 +147,10 @@
                         width:600,
                         height:400,
                         legend: 'true',        
-                        bar: {groupWidth: "90%"},
+                        bar: {groupWidth: "75%"},
                         colors:['#c6dbfd'],
-                        hAxis: { ticks: [5,10,15,25] },
+                        hAxis: {title: 'No of Accidents'},
+                        vAxis: {title: 'Hours as 24Hr'},
                       };
           var barchart = new google.visualization.BarChart(document.getElementById('barchart-hour'));
           barchart.draw(data, barchart_options);
