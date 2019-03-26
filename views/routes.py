@@ -6,7 +6,7 @@ from flask import (Flask,
                     send_from_directory)
 import json
 import os
-from datetime import datetime
+import datetime
 from . import init_app
 from controllers.auth import Auth
 from controllers.util import Util
@@ -233,12 +233,12 @@ def generate_chart_report():
     per_hour = []
     know_hours = []
     for ac in data:
-        acc_time = datetime.fromisoformat(ac['acc_time'])
+        acc_time = datetime.datetime.fromisoformat(ac['acc_time'])
         know_hours.append(acc_time.strftime('%H'))
 
     for hour in set(know_hours):
         count = len([a for a in data\
-            if hour == datetime.fromisoformat(a['acc_time']).strftime('%H')]\
+            if hour == datetime.datetime.fromisoformat(a['acc_time']).strftime('%H')]\
             )
         per_hour.append([hour,count])
     per_hour.sort()
