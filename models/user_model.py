@@ -22,7 +22,7 @@ class UsersModel(db.Model):
     self.firstname = data.get('firstname')
     self.lastname = data.get('lastname')
     self.email = data.get('email') 
-    self.password = self.__generate_hash(data.get('password'))
+    self.password = data.get('password') #self.__generate_hash(data.get('password'))
     self.phone = data.get('phone')
     self.created_at = datetime.datetime.utcnow()
     self.modified_at = datetime.datetime.utcnow()
@@ -34,7 +34,7 @@ class UsersModel(db.Model):
   def update(self, data):
     for key, item in data.items():
       if key == 'password': 
-        self.password = self.__generate_hash(value)
+        self.password = value #self.__generate_hash(value)
       setattr(self, key, item)
     self.modified_at = datetime.datetime.utcnow()
     db.session.commit()
@@ -54,6 +54,10 @@ class UsersModel(db.Model):
   @staticmethod
   def get_user_by_email(email): 
     return UsersModel.query.filter_by(email=email).first()
+
+  @staticmethod
+  def login_user(email,password):
+    return UsersModel.query.filter_by(email=email,password=password).first()
 
   def __repr__(self):
     user = {

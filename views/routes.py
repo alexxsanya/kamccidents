@@ -60,11 +60,12 @@ def dashboard():
 @app.route("/login",methods=['POST'])
 def login_user():
     user = request.form.to_dict(flat=True)  
-
-    user = UsersModel.get_user_by_email(user.get('user_name'))    
+    print(user)
+    user = UsersModel.login_user(user.get('user_name'),
+        user.get('user_pass'))    
     
     user = UserSchema().dump(user).data 
-
+    print(user)
     if user != None and '@' in str(user.get('email')):
         session['username'] = user.get('email')
         session['user_id'] = user.get('id')
@@ -225,9 +226,10 @@ def generate_chart_report():
     kampala_areas = []
     for ac in data:
         kampala_areas.append(ac['acc_area_name'])
-
-    for area in kampala_areas:
+    
+    for area in set(kampala_areas):
         count = len([a for a in data if area == a['acc_area_name']])
+        print([area, count])
         per_area.append([area, count])
 
     per_hour = []
