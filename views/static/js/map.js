@@ -19,13 +19,12 @@ function loadHeatMap(){
   headmap_db = []
   $.getJSON('/all-accidents', function(json1) {
       $.each(json1, function(key, data) {
-        var geo = data.acc_location.split(',') 
-        console.log(data)
-        headmap_db.push({location: new google.maps.LatLng(geo[0], geo[1]), weight: 0.5})
+        var geo = data.acc_location.split(',')
+        headmap_db.push({location: new google.maps.LatLng(geo[0], geo[1]), weight: 0.8})
       });
   });
 
-  console.log(headmap_db)
+  //console.log(headmap_db)
   var style = [
     {
       "featureType": "administrative",
@@ -110,7 +109,7 @@ function loadHeatMap(){
 
   map = new google.maps.Map(document.getElementById('mapCanvas'), {
     center: kampalaCity,
-    zoom: 14,
+    zoom: 13,
     mapTypeId: 'roadmap',
     styles: style
   });

@@ -28,8 +28,11 @@ function pickCoordinates() {
     function success(position) {
       var latitude  = position.coords.latitude;
       var longitude = position.coords.longitude;
+      lat = latitude.toString().slice(0,9)
+      lng = longitude.toString().slice(0,9)
+      let geo = lat + ',' + lng;
+      output.value = geo.toString()
 
-      output.value = formatted_coord(latitude) + ',' + formatted_coord(longitude);
     }
   
     function error() {
@@ -41,12 +44,3 @@ function pickCoordinates() {
     navigator.geolocation.getCurrentPosition(success, error);
     
   }
-
-function formatted_coord(str){
-
-  if(str.length>12){
-    return str.substring(0, 12)
-  }else{
-    return str
-  }
-}

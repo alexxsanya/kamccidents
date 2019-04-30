@@ -63,6 +63,8 @@
                             <option>Taxis</option>
                             <option>Pedestrians</option>
                             <option>Private Car</option> 
+                            <option>Buses</option> 
+                            <option>Lorry</option> 
                         </select>
                     </div>
                 </div>
@@ -108,12 +110,8 @@
                             'numeric:Only Numbers accepted')
         $('select').selectpicker();
 
-        $('#accident-address-button').click(function(){
-            $('#accident-address').attr('disabled','disabled')
-            $('#accident-address-button').value = "Switch"
-        });
+        let now  = new Date(Date.now()).toISOString()
+        now = now.toString().slice(0,-1)
+        document.getElementById("accident-time").defaultValue = now
 
-        $('#accident-address-button').dblclick(function(){
-            $('#accident-address').removeAttr('disabled')
-        })
     </script> 
