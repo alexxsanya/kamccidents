@@ -129,9 +129,11 @@
           piechart.draw(data, piechart_options);
 
           var barchart_options = {title:'Barchart: Accidents Per Area In Kampala ',
-                        width:500,
-                        height:350,
-                        legend: 'none'};
+                  width:500,
+                  height:350,
+                  legend: 'none',
+                  hAxis: {title: 'No of Accidents involved'}
+            };
           var barchart = new google.visualization.BarChart(document.getElementById('barchart-area'));
           barchart.draw(data, barchart_options);
 
@@ -143,15 +145,16 @@
           data.addColumn('number', 'Number of Accident');
           stat = {{per_hour|tojson}}
           data.addRows(stat)
-          var barchart_options = {title:'Barchart: Accidents Per Hour In Kampala',
-                        width:600,
-                        height:400,
-                        legend: 'true',        
-                        bar: {groupWidth: "75%"},
-                        colors:['#c6dbfd'],
-                        hAxis: {title: 'No of Accidents'},
-                        vAxis: {title: 'Hours as 24Hr'},
-                      };
+          var barchart_options = {
+                  title:'Barchart: Accidents Per Hour In Kampala',
+                  width:800,
+                  height:400,
+                  chartArea: {width: '60%',height:'80%'},
+                  legend: 'true', 
+                  colors:['#c6dbfd'],
+                  hAxis: {title: 'No of Accidents'},
+                  vAxis: {title: 'Hours as 24Hr',format: 'decimal'},
+          };
           var barchart = new google.visualization.BarChart(document.getElementById('barchart-hour'));
           barchart.draw(data, barchart_options);
           }
