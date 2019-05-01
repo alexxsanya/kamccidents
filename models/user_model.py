@@ -18,7 +18,7 @@ class UsersModel(db.Model):
   modified_at = db.Column(db.DateTime)
 
   def __init__(self, data):
-    print(">>> {} ".format(data))
+    
     self.firstname = data.get('firstname')
     self.lastname = data.get('lastname')
     self.email = data.get('email') 
