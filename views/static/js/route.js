@@ -1,5 +1,6 @@
-var lng = 0;
-var lat = 0;
+var hospital_json = "./hospitals.json";
+var lng = 0.316644; 
+var lat = 32.589536;
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(getPosition);
 } else {
@@ -11,6 +12,7 @@ function getPosition(position) {
   lng = position.coords.longitude; 
 }
 function loadHospitalMap(){
+    navigator.geolocation.watchPosition(getPosition);
     var myCurrentPosition = new google.maps.LatLng(lat, lng);
     map = new google.maps.Map(document.getElementById('route-map'), {
       center: myCurrentPosition,
@@ -62,12 +64,7 @@ function loadHospitalMap(){
   }  
 
   function generateRoute(togeocord) {
-    if(lat==0 & lng==0){
-      lat= 0.3499986
-      lng = 32.56716
-      navigator.geolocation.watchPosition(getPosition);
-    } 
-  
+    navigator.geolocation.watchPosition(getPosition);
     myCurrentPosition = new google.maps.LatLng(lat, lng);
     to = togeocord.split(',') 
     toDestination = new google.maps.LatLng(parseFloat(to[0]),parseFloat(to[1]));   

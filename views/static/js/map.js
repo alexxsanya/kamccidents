@@ -1,6 +1,6 @@
 var hospital_json = "./hospitals.json";
-var lng = 0;
-var lat = 0;
+var lng = 0.316644; 
+var lat = 32.589536;
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(getPosition);
 } else {
@@ -15,12 +15,12 @@ function getPosition(position) {
 function loadHeatMap(){
   document.querySelector('beacon').setAttribute('style',"display:inline");
   document.getElementById('hospital-map-label').setAttribute('hidden','hidden');
-
+  navigator.geolocation.watchPosition(getPosition);
   headmap_db = []
   $.getJSON('/all-accidents', function(json1) {
       $.each(json1, function(key, data) {
         var geo = data.acc_location.split(',')
-        headmap_db.push({location: new google.maps.LatLng(geo[0], geo[1]), weight: 0.8})
+        headmap_db.push({location: new google.maps.LatLng(geo[0], geo[1]), weight: 0.8,radius:"200px"})
       });
   });
 
@@ -118,10 +118,65 @@ function loadHeatMap(){
     data: headmap_db
   });
 
+  function getRadius(){
+    var radius;
+    var currentZoom = map.getZoom();
+    if (currentZoom === 7){
+        radius=2
+    }
+    else if (currentZoom === 8) {
+        radius = 4;
+    }
+    else if (currentZoom === 9) {
+        radius = 6;
+    }
+    else if (currentZoom === 10) {
+        radius = 8;
+    }
+    else if (currentZoom === 11) {
+        radius = 10;
+    }
+    else if (currentZoom === 12) {
+        radius = 12;
+    }
+    else if (currentZoom === 13) {
+        radius = 14;
+    }
+    else if (currentZoom === 14) {
+        radius = 16;
+    }
+    else if (currentZoom === 15) {
+        radius = 18;
+    }
+    else if (currentZoom === 16) {
+        radius = 20;
+    }
+    else if (currentZoom === 17) {
+        radius = 22;
+    }
+    else if (currentZoom === 18) {
+        radius = 24;
+    }
+    else if (currentZoom > 18) {
+      radius = 24;
+    }
+    return radius*5.5;
+  }
+  heatmap.setOptions({
+      radius: 14*5.5,
+  });
   heatmap.setMap(map);
 
-}
+  map.addListener('zoom_changed', function() {
+      // zoom level changed... adjust heatmap layer options!
+      heatmap.setOptions({
+          radius: getRadius(),
+      });
+      // render the new options
+      heatmap.setMap(map);
+  });
 
+}
 
 function loadHospitalMap(){
   document.querySelector('beacon').setAttribute('style',"display:none");
@@ -175,12 +230,8 @@ function loadHospitalMap(){
   }
 
 }
+
 function calculateRoute(to) {
-  if(lat==0 & lng==0){
-    lat= 0.3499986
-    lng = 32.56716
-    navigator.geolocation.watchPosition(getPosition);
-  } 
 
   myCurrentPosition = new google.maps.LatLng(lat, lng);
 
