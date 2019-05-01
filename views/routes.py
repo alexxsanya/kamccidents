@@ -60,12 +60,10 @@ def dashboard():
 @app.route("/login",methods=['POST'])
 def login_user():
     user = request.form.to_dict(flat=True)  
-    print(user)
     user = UsersModel.login_user(user.get('user_name'),
         user.get('user_pass'))    
     
-    user = UserSchema().dump(user).data 
-    print(user)
+    user = UserSchema().dump(user).data  
     if user != None and '@' in str(user.get('email')):
         session['username'] = user.get('email')
         session['user_id'] = user.get('id')
@@ -112,8 +110,39 @@ def create_user():
     flash(message,'success')        
     return redirect(url_for('home'))
 
+@app.route("/create-super-user",methods=['GET'])
+def create_super_user():
+    req_data = {
+        "email": "admin@gmail.com", 
+        "name": "Super User", 
+        "password": "Kampala123", 
+        "phone": "256723000001", 
+        "user_cpass": "Kampala123"
+    }
+
+    req_data['firstname'],req_data['lastname'] =req_data.get('name').split(" ")  
+    
+    data, error = UserSchema().load(req_data)
+
+    if error:
+        return custom_response(error, 400)
+  
+  # check if user already exist in the db
+    user_in_db = UsersModel.get_user_by_email(data.get('email'))
+    if user_in_db:
+        message = 'User already exist with supplied email address'
+        flash(message,'error')        
+        return redirect(url_for('home'))
+
+    user = UsersModel(data)
+    user.save()
+
+    message = 'Super user created'
+    flash(message,'success')        
+    return redirect(url_for('home'))
+
 @app.route("/create-accident", methods=['POST'])
-@auth.login_required
+#@auth.login_required
 def create_accident():
     req_data = request.form.to_dict(flat=True)
     accident_photo = request.files['acc_photo']
@@ -213,7 +242,7 @@ def get_photo(img_uri):
 
 @app.route('/reports/charts')
 def generate_chart_report():
-    acc_involved = ['Bodas','Taxis','Pedestrians','Lorry','Buses']
+    acc_involved = ['Bodas','Taxis','Pedestrians','Lorry','Buses','Private Car']
     accident =  AccidentsModel.get_accidents_from_db() 
     data = AccidentsModelSchema().dump(accident, many=True).data 
     list = []
@@ -229,7 +258,6 @@ def generate_chart_report():
     
     for area in set(kampala_areas):
         count = len([a for a in data if area == a['acc_area_name']])
-        print([area, count])
         per_area.append([area, count])
 
     per_hour = []
