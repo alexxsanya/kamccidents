@@ -17,6 +17,10 @@
                     <input type="number" class="form-control form-control-sm" id="accident-createdby" 
                         value="{{session['user_id']}}" name="acc_created_by" hidden required>
                 {% endif %}
+                {% if not session['user_id'] %} 
+                    <input type="number" class="form-control form-control-sm" id="accident-createdby" 
+                        value="1" name="acc_created_by" hidden required>
+                {% endif %}
                 <div class="form-group">
                     <label for="accident-desc" class="col-form-label">Description:</label>
                     <textarea class="form-control form-control-sm" id="accident-desc" name="acc_desc"
