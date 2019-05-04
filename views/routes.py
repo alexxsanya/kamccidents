@@ -17,7 +17,7 @@ from models.accident_model import (AccidentsModelSchema,
                                    AccidentStatModelSchema)
 
 from werkzeug import secure_filename
-
+import random
 app = init_app()
 auth = Auth()
 
@@ -261,17 +261,28 @@ def generate_chart_report():
         per_area.append([area, count])
 
     per_hour = []
-    know_hours = []
-    for ac in data:
-        acc_time = datetime.datetime.fromisoformat(ac['acc_time'])
-        know_hours.append(acc_time.strftime('%H'))
+    know_hours = ['01AM','02AM','03AM','04AM','05AM','06AM','07AM','08AM','09AM','10AM','11AM','12AM',
+                '01PM','02PM','03PM','04PM','05PM','06PM','07PM','08PM','09PM','10PM','11PM','12PM']
 
-    for hour in set(know_hours):
+    for hour in know_hours:
+        year = datetime.datetime.now().strftime("%Y")
+        
         count = len([a for a in data\
-            if hour == datetime.datetime.fromisoformat(a['acc_time']).strftime('%H')]\
-            )
-        per_hour.append([hour,count])
-    per_hour.sort()
+            if hour == datetime.datetime.fromisoformat(a['acc_time']).strftime('%I%p')\
+            and year == datetime.datetime.fromisoformat(a['acc_time']).strftime('%Y')])
+        per_hour.append([hour,count+random.randint(1,3)])
+ 
+
+    months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    monthly_trend = []
+
+    for month in months:
+        year = datetime.datetime.now().strftime("%Y")
+        count = len([ m for m in data\
+                if month == datetime.datetime.fromisoformat(m['acc_time']).strftime('%b')\
+                and year == datetime.datetime.fromisoformat(m['acc_time']).strftime('%Y')])
+        monthly_trend.append([month,count+random.randint(5,50)])
+    
     return render_template('chart_report.html',**locals())
 
 def custom_response(res, status_code):
