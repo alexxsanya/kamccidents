@@ -13,6 +13,8 @@
                 role="tab" aria-controls="v-pills-profile" aria-selected="false">By Area</a>   
               <a class="nav-link" id="v-pills-byhour-tab" data-toggle="pill" href="#v-pills-by-hour" 
                 role="tab" aria-controls="v-pills-by-hour" aria-selected="false">Accident By Hour</a>
+                <a class="nav-link" id="v-pills-bymonth-tab" data-toggle="pill" href="#v-pills-by-month" 
+                  role="tab" aria-controls="v-pills-by-month" aria-selected="false">Accident Monthly Trend</a>
             </div>
           </div>
           <div class="col-9">
@@ -72,6 +74,21 @@
                     </div>
                 </div> 
               </div>
+              <div class="tab-pane fade" id="v-pills-by-month" role="tabpanel" aria-labelledby="v-pills-bymonth-tab">
+                <nav class="navbar navbar-light bg-light">
+                    <span class="navbar-text">
+                        Monthly Trend
+                    </span>
+                </nav>                  
+                <br>
+                <div class="row">
+                  <div class="col-6">
+                    <div id="barchart-month">
+                      <loading>Loading...</loading>
+                    </div>
+                  </div>
+              </div> 
+            </div>
             </div>
           </div>
         </div>
@@ -84,16 +101,34 @@
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
       window.onload = function(){ 
+        var byroad_tab = document.getElementById('v-pills-home-tab')
+        var byarea_tab = document.getElementById('v-pills-profile-tab')
+        var byhour_tab = document.getElementById('v-pills-byhour-tab')
+        var bymonth_tab = document.getElementById('v-pills-bymonth-tab')
+
         // Load Charts and the corechart and barchart packages.
         google.charts.load('current', {'packages':['corechart']});
-
-        // Draw the pie chart and bar chart when Charts is loaded.
         google.charts.setOnLoadCallback(drawChart);
+
+        byroad_tab.onclick = function(){
+          google.charts.setOnLoadCallback(drawChart);
+        }
+        byarea_tab.onclick = function(){
+          google.charts.setOnLoadCallback(drawPerArea);
+        }
+        byhour_tab.onclick = function(){
+          google.charts.setOnLoadCallback(drawPerHour);
+        }
+        bymonth_tab.onclick = function(){
+          google.charts.setOnLoadCallback(drawPerMonth);
+        }
+        // Draw the pie chart and bar chart when Charts is loaded.
+        /*google.charts.setOnLoadCallback(drawChart);
         google.charts.setOnLoadCallback(drawPerArea);
         google.charts.setOnLoadCallback(drawPerHour);
+        google.charts.setOnLoadCallback(drawPerMonth);*/
 
         function drawChart() {
-
           var data = new google.visualization.DataTable();
           data.addColumn('string', 'Topping');
           data.addColumn('number', 'Number');
@@ -148,14 +183,34 @@
           var barchart_options = {
                   title:'Barchart: Accidents Per Hour In Kampala',
                   width:800,
-                  height:400,
+                  height:500,
                   chartArea: {width: '60%',height:'80%'},
                   legend: 'true', 
                   colors:['#c6dbfd'],
                   hAxis: {title: 'No of Accidents'},
-                  vAxis: {title: 'Hours as 24Hr',format: 'decimal'},
+                  vAxis: {title: 'Hours as 12Hr'},
           };
           var barchart = new google.visualization.BarChart(document.getElementById('barchart-hour'));
+          barchart.draw(data, barchart_options);
+          }
+
+          function drawPerMonth() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Month');
+          data.addColumn('number', 'Number of Accident');
+          stat = {{monthly_trend|tojson}}
+          data.addRows(stat)
+          var barchart_options = {
+                  title:'Barchart: Accident\'s Monthly Trend In Kampala',
+                  width:800,
+                  height:400,
+                  chartArea: {width: '60%',height:'80%'},
+                  legend: 'true', 
+                  colors:['#c6dbfd'],
+                  hAxis: {title: 'Number of Accidents'},
+                  vAxis: {title: 'Month'},
+          };
+          var barchart = new google.visualization.BarChart(document.getElementById('barchart-month'));
           barchart.draw(data, barchart_options);
           }
     }

@@ -96,9 +96,20 @@
         '</a>  '
       ].join('')
     }
+    function accidentIDFormatter(value,row,index){
+      return [
+        `<span>KAC-${value}</span`
+      ].join("")
+    }
+    function accidentDateFormatter(value,row,index){
+    
+      var dt = new Date(value).toUTCString()
+      return [
+        `${dt}`
+      ].join('')
+    }
     window.operateEvents = {
-      'click .like': function (e, value, row, index) {
-        //alert('You click like action, row: ' + JSON.stringify(row))
+      'click .like': function (e, value, row, index) { 
         window.location.href = '/accident/'+row.id;
       }
     }
@@ -110,13 +121,15 @@
         pageSize:15,
         columns: [{
           field: 'id',
-          title: '#'
+          title: '#',
+          formatter:accidentIDFormatter
         }, {
           field: 'acc_title',
           title: 'Accident Title'
         }, {
           field: 'acc_time',
-          title: 'Time Reported'
+          title: 'Time Reported',
+          formatter:accidentDateFormatter
         }, {
           field: 'operate',
           title: '',
